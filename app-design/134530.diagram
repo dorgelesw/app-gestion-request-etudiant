@@ -1,0 +1,28 @@
+format 222
+
+pseudostatecanvas 128002 pseudostate_ref 128002 // initial
+   xyz 79 135 2000
+end
+statecanvas 128130 state_ref 141058 // Créer
+  
+  xyzwh 144 130 2000 53 35
+end
+statecanvas 128386 state_ref 141186 // Envoyer
+  
+  xyzwh 230 128 2000 65 35
+end
+transitioncanvas 128514 transition_ref 128002 // <transition>
+  decenter_end 485
+  
+  from ref 128002 z 2006 to point 90 142
+  line 128642 z 2006 to point 83 145
+  line 128770 z 2006 to ref 128130
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 129282 transition_ref 128258 // <transition>
+  decenter_end 541
+  
+  from ref 128130 z 2001 to ref 128386
+  write_horizontally default show_definition default drawing_language default
+end
+end

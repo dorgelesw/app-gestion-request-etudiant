@@ -1,0 +1,136 @@
+format 222
+"REPOSITORY" // REPOSITORY
+  revision 2
+  modified_by 2 "d.marrel"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  classview 134530 "DAO"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    state 134530 "appState"
+      stereotype "machine"
+      statediagram 134530 "requestState"
+	statediagramsettings draw_all_relations no
+	 end
+	size A4
+      end
+
+      pseudostate 128002 initial 
+	transition 128002 "<transition>"
+	  on state_ref 141058 // Créer
+	  external 
+	end
+      end
+
+      state 141058 "Créer"
+	transition 128130 "<transition>"
+	  on state_ref 141058 // Créer
+	end
+
+	transition 128258 "<transition>"
+	  on state_ref 141186 // Envoyer
+	  external 
+	end
+      end
+
+      state 141186 "Envoyer"
+      end
+    end
+
+    class 128386 "User"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 128642 "Student"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 128770 "Staff"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 128898 "Request"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    classdiagram 141314 "api request class diagram"
+      classdiagramsettings member_max_width 0 end
+      size A4
+    end
+  end
+end
