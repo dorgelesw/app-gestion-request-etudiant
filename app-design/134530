@@ -1,7 +1,7 @@
 format 222
 "APIs" // APIs
-  revision 2
-  modified_by 2 "d.marrel"
+  revision 8
+  modified_by 100 "Appoline"
   // class settings
   
   classdiagramsettings member_max_width 0 end

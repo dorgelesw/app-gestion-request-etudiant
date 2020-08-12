@@ -27,12 +27,12 @@ relationcanvas 128740 relation_ref 128228 // <generalisation>
   no_multiplicity_a no_multiplicity_b
 end
 relationcanvas 128868 relation_ref 128356 // soumettre
-  from ref 128228 z 2001 label "soumettre" italic max_width 255 xyz 300 352 3000 to ref 128484
+  from ref 128228 z 2001 label "soumettre" italic max_width 255 xyz 300 352 2001 to ref 128484
   no_role_a no_role_b
   multiplicity_a_pos 377 412 3000 multiplicity_b_pos 301 301 3000
 end
 relationcanvas 128996 relation_ref 128484 // recevoir,traiter,approuver ou rejeter
-  from ref 128356 z 2001 label "recevoir,traiter,approuver ou rejeter" italic max_width 255 xyz 505 342 3000 to ref 128484
+  from ref 128356 z 2001 label "recevoir,traiter,approuver ou rejeter" italic max_width 255 xyz 505 342 2001 to ref 128484
   no_role_a no_role_b
   multiplicity_a_pos 451 412 3000 multiplicity_b_pos 511 289 3000
 end

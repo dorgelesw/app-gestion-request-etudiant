@@ -101,7 +101,7 @@ end
 transitioncanvas 138468 transition_ref 149476 // élément manquant
   decenter_end 314
   
-  from ref 135012 z 2001 label "élément manquant" xyz 466 198 3000 to ref 128996
+  from ref 135012 z 2001 label "élément manquant" xyz 466 198 2001 to ref 128996
   write_horizontally default show_definition default drawing_language default
 end
 end
