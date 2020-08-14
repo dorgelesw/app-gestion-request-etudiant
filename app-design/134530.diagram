@@ -3,25 +3,17 @@ format 222
 pseudostatecanvas 128002 pseudostate_ref 128002 // initial
    xyz 79 135 2000
 end
-statecanvas 128100 state_ref 128100 // Recevoir
-  
-  xyzwh 467 130 2000 71 35
-end
 statecanvas 128130 state_ref 141058 // Créer
   
-  xyzwh 144 130 2000 53 35
+  xyzwh 210 130 2000 53 35
 end
 statecanvas 128356 state_ref 128228 // En cours de traitement
   
   xyzwh 626 130 2000 149 35
 end
-statecanvas 128386 state_ref 141186 // Envoyer
-  
-  xyzwh 298 126 2000 65 35
-end
 statecanvas 128996 state_ref 128356 // à compléter
   
-  xyzwh 293 205 2000 89 35
+  xyzwh 425 206 2000 89 35
 end
 statecanvas 129252 state_ref 128484 // Approuver
   
@@ -58,27 +50,13 @@ end
 stateactioncanvas 135652 stateaction_ref 134884
   xyzwh 615 270 2021 161 31
 end
-transitioncanvas 128228 transition_ref 128100 // <transition>
-  decenter_end 428
+statecanvas 138596 state_ref 135140 // Envoyer
   
-  from ref 128386 z 2001 to ref 128100
-  write_horizontally default show_definition default drawing_language default
-end
-transitioncanvas 129282 transition_ref 128258 // requête soumise
-  decenter_end 541
-  
-  from ref 128130 z 2001 label "requête soumise" xyz 196 126 2001 to point 284 143
-  line 134500 z 2001 to ref 128386
-  write_horizontally default show_definition default drawing_language default
+  xyzwh 437 132 2000 65 35
 end
 transitioncanvas 133220 transition_ref 135396 // <transition>
   
   from ref 128002 z 2001 to ref 128130
-  write_horizontally default show_definition default drawing_language default
-end
-transitioncanvas 134884 transition_ref 141924 // <transition>
-  
-  from ref 128100 z 2001 to ref 128356
   write_horizontally default show_definition default drawing_language default
 end
 transitioncanvas 136292 transition_ref 142308 // <transition>
@@ -92,16 +70,25 @@ transitioncanvas 136676 transition_ref 142436 // <transition>
   from ref 135012 z 2022 to ref 135652
   write_horizontally default show_definition default drawing_language default
 end
-transitioncanvas 138340 transition_ref 149348 // <transition>
-  decenter_end 569
-  
-  from ref 128996 z 2001 to ref 128386
-  write_horizontally default show_definition default drawing_language default
-end
 transitioncanvas 138468 transition_ref 149476 // élément manquant
   decenter_end 314
   
-  from ref 135012 z 2001 label "élément manquant" xyz 466 198 3000 to ref 128996
+  from ref 135012 z 2001 label "élément manquant" xyz 541 200.5 2001 to ref 128996
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 138724 transition_ref 156004 // requete soumise
+  
+  from ref 128130 z 2001 label "requete soumise" xyz 305 129.5 3000 to ref 138596
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 138852 transition_ref 156132 // requete reçue
+  
+  from ref 138596 z 2001 label "requete reçue" xyz 531 131.5 3000 to ref 128356
+  write_horizontally default show_definition default drawing_language default
+end
+transitioncanvas 138980 transition_ref 156260 // <transition>
+  
+  from ref 128996 z 2001 to ref 138596
   write_horizontally default show_definition default drawing_language default
 end
 end
