@@ -34,7 +34,7 @@ msg 128770 synchronous
 msg 129026 synchronous
   from durationcanvas_ref 128642
   to durationcanvas_ref 128898
-  yz 108 2015 explicitmsg "call dedigated service"
+  yz 108 2015 explicitmsg "call dedigated com.iuc.requests.api.service"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
   label_xy 293 93
 msg 129282 synchronous

@@ -43,7 +43,7 @@
   activitypartition_stereotypes  0
   pin_stereotypes  0
   port_stereotypes  0
-  component_stereotypes  6 "buildComponent" "entity" "implement" "process" "service" "subsystem"
+  component_stereotypes  6 "buildComponent" "entity" "implement" "process" "com.iuc.requests.api.service" "subsystem"
   deploymentnode_stereotypes  3 "cpu" "device" "executionEnvironment"
   classview_stereotypes  0
   usecaseview_stereotypes  0

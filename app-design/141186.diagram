@@ -58,7 +58,7 @@ msg 129124 synchronous
 msg 129380 synchronous
   from durationcanvas_ref 128996
   to durationcanvas_ref 129252
-  yz 197 2020 explicitmsg "2: call dedigated service"
+  yz 197 2020 explicitmsg "2: call dedigated com.iuc.requests.api.service"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
   label_xy 186 184
 msg 129636 synchronous
@@ -110,7 +110,7 @@ reflexivemsg 132068 synchronous
 msg 132324 synchronous
   from durationcanvas_ref 130916
   to durationcanvas_ref 132196
-  yz 429 2015 explicitmsg "12: call dedigated service"
+  yz 429 2015 explicitmsg "12: call dedigated com.iuc.requests.api.service"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
   label_xy 184 415
 msg 132580 synchronous

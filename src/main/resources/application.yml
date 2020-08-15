@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+  application:
+    name: admin console com.iuc.requests.api.service
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/iuc_request_db?useSSL=false
+    username: johndoe
+    password: john@doe
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    open-in-view: false # since we don't query db in the view layer, no need to cache query results in the while life cycle of the request. Ref.: https://www.changchao.me/?p=782
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+
+server:
+  address: localhost
+  port: 8084
