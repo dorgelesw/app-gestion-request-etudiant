@@ -1,6 +1,6 @@
 format 222
 "APIs" // APIs
-  revision 8
+  revision 13
   modified_by 100 "Appoline"
   // class settings
   
@@ -104,6 +104,21 @@ format 222
     end
 
     sequencediagram 141186 "create a request"
+      sequencediagramsettings end
+      overlapping_bars size A4
+    end
+
+    sequencediagram 128228 "receive a request"
+      sequencediagramsettings end
+      overlapping_bars size A4
+    end
+
+    sequencediagram 128100 "delete a request"
+      sequencediagramsettings end
+      overlapping_bars size A4
+    end
+
+    sequencediagram 128356 "reply to a query"
       sequencediagramsettings end
       overlapping_bars size A4
     end

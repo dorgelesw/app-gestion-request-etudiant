@@ -1,168 +1,166 @@
 format 222
 
 classinstance 128100 class_ref 128002 // RequestController
-  name ""   xyz 118 69 2000 life_line_z 2000
+  name ""   xyz 145 80 2000 life_line_z 2000
 classinstance 128356 class_ref 128130 // RequestService
-  name ""   xyz 382 70 2000 life_line_z 2000
+  name ""   xyz 387 82 2000 life_line_z 2000
 classinstance 128484 class_ref 128258 // RequestRepository
-  name ""   xyz 525 71 2000 life_line_z 2000
+  name ""   xyz 538 81 2000 life_line_z 2000
 classinstance 128612 class_ref 128514 // MySQL
-  name ""   xyz 706 71 2000 life_line_z 2000
+  name ""   xyz 734 75 2000 life_line_z 2000
 classinstance 128740 class_ref 128386 // User
-  name ""   xyz 6 68 2000 life_line_z 2000
+  name ""   xyz -3 80 2000 life_line_z 2000
 durationcanvas 128868 classinstance_ref 128740 // :User
-  xyzwh 25 151 2010 11 401
+  xyzwh 16 151 2010 11 401
   overlappingdurationcanvas 130660
-    xyzwh 31 303 2020 11 34
+    xyzwh 22 303 2020 11 34
   end
 end
 durationcanvas 128996 classinstance_ref 128100 // :RequestController
-  xyzwh 170 164 2010 11 144
+  xyzwh 197 164 2010 11 144
 end
 durationcanvas 129252 classinstance_ref 128356 // :RequestService
-  xyzwh 427 168 2010 11 129
+  xyzwh 432 168 2010 11 139
 end
 durationcanvas 129508 classinstance_ref 128484 // :RequestRepository
-  xyzwh 580 170 2010 11 120
-end
-durationcanvas 129764 classinstance_ref 128612 // :MySQL
-  xyzwh 727 214 2010 11 76
+  xyzwh 593 171 2010 11 123
 end
 durationcanvas 130916 classinstance_ref 128100 // :RequestController
-  xyzwh 170 345 2010 11 213
+  xyzwh 197 345 2010 11 213
   overlappingdurationcanvas 131940
-    xyzwh 176 371 2020 11 25
+    xyzwh 203 371 2020 11 25
   end
 end
 durationcanvas 132196 classinstance_ref 128356 // :RequestService
-  xyzwh 427 420 2010 11 141
+  xyzwh 432 420 2010 11 141
 end
 durationcanvas 132452 classinstance_ref 128484 // :RequestRepository
-  xyzwh 580 430 2010 11 135
+  xyzwh 593 430 2010 11 135
 end
 durationcanvas 132708 classinstance_ref 128612 // :MySQL
-  xyzwh 727 435 2010 11 90
+  xyzwh 755 435 2010 11 90
   overlappingdurationcanvas 133476
-    xyzwh 733 458 2020 11 25
+    xyzwh 761 458 2020 11 25
   end
 end
-durationcanvas 134756 classinstance_ref 128612 // :MySQL
-  xyzwh 727 214 2010 11 26
+durationcanvas 135140 classinstance_ref 128612 // :MySQL
+  xyzwh 755 216 2010 11 65
 end
 msg 129124 synchronous
   from durationcanvas_ref 128868
   to durationcanvas_ref 128996
-  yz 179 2015 explicitmsg "1: http post request"
+  yz 179 2015 explicitmsg "1: get type and reason of query"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 45 167
+  label_xy 27 169
 msg 129380 synchronous
   from durationcanvas_ref 128996
   to durationcanvas_ref 129252
   yz 197 2020 explicitmsg "2: call dedigated com.iuc.requests.api.service"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 186 184
+  label_xy 213 184
 msg 129636 synchronous
   from durationcanvas_ref 129252
   to durationcanvas_ref 129508
-  yz 207 2015 explicitmsg "3: call method sql query"
+  yz 208 2015 explicitmsg "3: call method sql query"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 438 194
-msg 130020 return
-  from durationcanvas_ref 129764
-  to durationcanvas_ref 129508
-  yz 254 2015 explicitmsg "5: request creation form"
-  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 593 264
+  label_xy 443 195
 msg 130148 return
   from durationcanvas_ref 129508
   to durationcanvas_ref 129252
-  yz 266 2020 explicitmsg "6: request creation form"
+  yz 267 2020 explicitmsg "6: type and reason of query"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 439 274
+  label_xy 444 275
 msg 130276 return
   from durationcanvas_ref 129252
   to durationcanvas_ref 128996
-  yz 278 2015 explicitmsg "7: request creation form"
+  yz 278 2015 explicitmsg "7: type and reason of query"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 185 287
+  label_xy 212 287
 msg 130404 return
   from durationcanvas_ref 128996
   to durationcanvas_ref 128868
   yz 285 2020 explicitmsg "8: request creation form"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 46 293
+  label_xy 31 293
 reflexivemsg 130788 asynchronous
   to durationcanvas_ref 130660
   yz 322 2025 explicitmsg "9: filling out the form"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 65 318
+  label_xy 56 318
 msg 131044 synchronous
   from durationcanvas_ref 128868
   to durationcanvas_ref 130916
-  yz 367 2025 explicitmsg "10: s"
+  yz 367 2025 explicitmsg "10: completed form"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 40 354
+  label_xy 31 354
 reflexivemsg 132068 synchronous
   to durationcanvas_ref 131940
   yz 371 2030 explicitmsg "11: verification of the completed form"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 208 369
+  label_xy 235 369
 msg 132324 synchronous
   from durationcanvas_ref 130916
   to durationcanvas_ref 132196
-  yz 429 2015 explicitmsg "12: call dedigated com.iuc.requests.api.service"
+  yz 429 2015 explicitmsg "12.b: call dedigated service(correct form)"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 184 415
+  label_xy 211 415
 msg 132580 synchronous
   from durationcanvas_ref 132196
   to durationcanvas_ref 132452
   yz 435 2020 explicitmsg "13: call method sql query"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 439 426
+  label_xy 444 426
 msg 132836 synchronous
   from durationcanvas_ref 132452
   to durationcanvas_ref 132708
   yz 439 2015 explicitmsg "14:sql request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 594 428
+  label_xy 607 428
 msg 132964 return
   from durationcanvas_ref 132708
   to durationcanvas_ref 132452
-  yz 486 2015 explicitmsg "16: to send"
+  yz 481 2015 explicitmsg "16: saved request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 592 495
+  label_xy 605 490
 msg 133092 return
   from durationcanvas_ref 132452
   to durationcanvas_ref 132196
-  yz 495 3005 explicitmsg "17: to send"
+  yz 495 3005 explicitmsg "17: saved request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 438 504
+  label_xy 443 504
 msg 133220 return
   from durationcanvas_ref 132196
   to durationcanvas_ref 130916
-  yz 516 3010 explicitmsg "18: to send"
+  yz 516 3010 explicitmsg "18: saved request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 183 525
+  label_xy 210 525
 msg 133348 return
   from durationcanvas_ref 130916
   to durationcanvas_ref 128868
-  yz 531 2015 explicitmsg "19: to send"
+  yz 531 2015 explicitmsg "19: saved request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 38 539
+  label_xy 29 539
 reflexivemsg 133604 asynchronous
   to durationcanvas_ref 133476
-  yz 459 2025 explicitmsg "15: record the application"
+  yz 459 2025 explicitmsg "15: record the request"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 762 456
-msg 134884 synchronous
-  from durationcanvas_ref 129508
-  to durationcanvas_ref 134756
-  yz 214 2020 explicitmsg "4:"
-  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
-  label_xy 594 203
+  label_xy 705 467
 msg 135012 return
   from durationcanvas_ref 130916
   to durationcanvas_ref 128868
-  yz 401 2015 unspecifiedmsg
+  yz 400 2015 explicitmsg "12.a: return(form failed)"
   show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 33 407
+msg 135268 synchronous
+  from durationcanvas_ref 129508
+  to durationcanvas_ref 135140
+  yz 217 2020 explicitmsg "4: sql request"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 635 202
+msg 135396 return
+  from durationcanvas_ref 135140
+  to durationcanvas_ref 129508
+  yz 254 2025 explicitmsg "5: type and reason of query"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 604 260
 end

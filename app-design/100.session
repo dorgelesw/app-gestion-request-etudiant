@@ -1,25 +1,15 @@
 window_sizes 1600 837 375 1220 686 104
 
-diagrams
-  sequencediagram_ref 141058 // get list of requests status
-    114 90 100 A4 0 0
-  classdiagram_ref 141314 // api request class diagram
-    1220 686 100 A4 0 0
-  statediagram_ref 134530 // requestState
-    114 90 100 A4 0 0
-  active  sequencediagram_ref 141186 // create a request
-    1220 686 100 A4 0 0
-end
 show_stereotypes
-selected sequencediagram_ref 141186 // create a request
+selected classdiagram_ref 141314 // api request class diagram
 open
   class_ref 128130 // RequestService
-  pseudostate_ref 128002 // initial
-  state_ref 128484 // Approuver
-  state_ref 128612 // Rejeter
+  sequencediagram_ref 128228 // receive a request
   class_ref 128386 // User
   class_ref 128642 // Student
   class_ref 128770 // Staff
-  class_ref 128898 // Request
+  class_ref 128100 // RequestType
+  class_ref 128228 // RequestReason
+  class_ref 134756 // RequestState
 end
 end
