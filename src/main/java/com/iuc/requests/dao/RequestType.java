@@ -2,6 +2,7 @@ package com.iuc.requests.dao;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,9 +21,9 @@ public class RequestType {
     private Long id;
 
     @Column(length = 30, unique = true, nullable = false)
-    private String typeName;
+    private String type;
 
-    @OneToMany(mappedBy = "requestType", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "requestType", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<RequestReason> requestReasons = new ArrayList<>();
 
 }

@@ -19,7 +19,7 @@ public class RequestReason {
     private Long id;
 
     @Column(length = 100, unique = true, nullable = false)
-    private String reasonName;
+    private String motif;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "requestType_id")

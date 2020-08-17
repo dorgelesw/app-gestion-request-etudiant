@@ -10,11 +10,16 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class RequestState {
+public class Filiere {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 8, unique = true, nullable = false)
-    private String statut;
+    @Column(length = 20, unique = true, nullable = false)
+    private String nom;
+
+    @Column
+    private String description;
+
 }

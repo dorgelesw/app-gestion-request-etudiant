@@ -1,7 +1,7 @@
 format 222
 "REPOSITORY" // REPOSITORY
-  revision 10
-  modified_by 100 "Appoline"
+  revision 11
+  modified_by 2 "d.marrel"
   // class settings
   
   classdiagramsettings member_max_width 0 end
@@ -191,6 +191,21 @@ format 222
 	mysql_decl ""
 	MysqlColumn
       end
+
+      classrelation 128898 // (a)
+	relation_ref 128386 // a
+      end
+
+      attribute 128386 "filiere"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
 
     class 128642 "Student"
@@ -212,26 +227,6 @@ format 222
 	  b parent class_ref 128386 // User
       end
 
-      classrelation 128356 // (soumettre)
-	relation 128356 ---- name "soumettre"
-	  a role_name "" multiplicity "*" protected
-	    classrelation_ref 128356 // (soumettre)
-	  b role_name "" multiplicity "0..1" protected
-	    classrelation_ref 128484 // (soumettre)
-	  association_explicit_type "void"
-      end
-
-      attribute 128612 "filière"
-	private explicit_type "uchar"
-	cpp_decl ""
-	java_decl ""
-	php_decl ""
-	python_decl ""
-	idl_decl ""
-	mysql_decl ""
-	MysqlColumn
-      end
-
       attribute 128740 "niveau"
 	private explicit_type "uchar"
 	cpp_decl ""
@@ -241,6 +236,14 @@ format 222
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      classrelation 128258 // (creer, soumettre)
+	relation 128130 ---- name "creer, soumettre"
+	  a role_name "" multiplicity "*" protected
+	    classrelation_ref 128258 // (creer, soumettre)
+	  b role_name "" multiplicity "0..1" protected
+	    classrelation_ref 128386 // (creer, soumettre)
       end
     end
 
@@ -263,15 +266,6 @@ format 222
 	  b parent class_ref 128386 // User
       end
 
-      classrelation 128612 // (recevoir,traiter,approuver ou rejeter)
-	relation 128484 ---- name "recevoir,traiter,approuver ou rejeter"
-	  a role_name "" multiplicity "*" protected
-	    classrelation_ref 128612 // (recevoir,traiter,approuver ou rejeter)
-	  b role_name "" multiplicity "1" protected
-	    classrelation_ref 128740 // (recevoir,traiter,approuver ou rejeter)
-	  association_explicit_type "void"
-      end
-
       attribute 128996 "posteOccupe"
 	private explicit_type "string"
 	cpp_decl ""
@@ -281,6 +275,14 @@ format 222
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+
+      classrelation 128514 // (recevoir, traiter, approuver ou rejeter)
+	relation 128258 ---- name "recevoir, traiter, approuver ou rejeter"
+	  a role_name "" multiplicity "*" protected
+	    classrelation_ref 128514 // (recevoir, traiter, approuver ou rejeter)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 128642 // (recevoir, traiter, approuver ou rejeter)
       end
     end
 
@@ -296,14 +298,6 @@ format 222
       
       ncouples 1
       key "IdReq" value ""
-      classrelation 128484 // (soumettre)
-	relation_ref 128356 // soumettre
-      end
-
-      classrelation 128740 // (recevoir,traiter,approuver ou rejeter)
-	relation_ref 128484 // recevoir,traiter,approuver ou rejeter
-      end
-
       attribute 129124 "idReq"
 	private explicit_type "int"
 	cpp_decl ""
@@ -392,6 +386,25 @@ format 222
 	mysql_decl ""
 	MysqlColumn
       end
+
+      classrelation 128386 // (creer, soumettre)
+	relation_ref 128130 // creer, soumettre
+      end
+
+      classrelation 128642 // (recevoir, traiter, approuver ou rejeter)
+	relation_ref 128258 // recevoir, traiter, approuver ou rejeter
+      end
+
+      attribute 128514 "requestStatut"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
 
     classdiagram 141314 "api request class diagram"
@@ -409,7 +422,7 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 136420 "typeName"
+      attribute 136420 "type"
 	private explicit_type "string"
 	cpp_decl ""
 	java_decl ""
@@ -443,7 +456,7 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 136548 "reasonName"
+      attribute 136548 "motif"
 	private explicit_type "string"
 	cpp_decl ""
 	java_decl ""
@@ -473,7 +486,7 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
-      attribute 143332 "stateName"
+      attribute 143332 "statut"
 	private explicit_type "string"
 	cpp_decl ""
 	java_decl ""
@@ -486,6 +499,47 @@ format 222
 
       classrelation 142820 // (avoir)
 	relation_ref 141924 // avoir
+      end
+    end
+
+    class 135426 "Filiere"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 128130 "nom"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128258 "description"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128770 // (a)
+	relation 128386 ---- name "a"
+	  a role_name "" multiplicity "1" protected
+	    classrelation_ref 128770 // (a)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 128898 // (a)
       end
     end
   end

@@ -5,13 +5,15 @@ import lombok.Data;
 @Data
 public class StaffDto {
 
-    private String userRegistration;
+    private String matricule;
 
-    private String lastName;
+    private String nom;
 
-    private String firstName;
+    private String prenom;
 
     private String email;
 
-    private String position;
+    private String posteOccupe;
+
+    private String filiere;
 }

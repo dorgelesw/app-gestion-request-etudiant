@@ -4,10 +4,13 @@ import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @RestController
@@ -18,17 +21,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/staff")
-    public StaffDto getStaffByEmail(@RequestParam(value = "email") String email) {
+    public StaffDto findStaffByEmail(@RequestParam(value = "email") @Email String email) {
         return null;
     }
 
     @GetMapping("/staff")
-    public StaffDto getStaffByRegistration(@RequestParam(value = "userRegistration") String userRegistration) {
+    public StaffDto findStaffByMatricule(@RequestParam(value = "userRegistration") String userRegistration) {
         return null;
     }
 
     @GetMapping("/staffs")
     public List<StaffDto> listOfStaffs() {
-        return null;
+        return userService.findAllStaffs();
+    }
+
+    @PostMapping("/staff")
+    public StaffDto save(@RequestBody StaffDto staffDto) {
+        return userService.save(staffDto);
     }
 }
