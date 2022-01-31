@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
@@ -20,6 +21,7 @@ public class User {
     private Long id;
 
     @Column(length = 13, unique = true, nullable = false)
+    @Pattern(regexp = "[a-zA-Z]")
     private String matricule;
 
     @Column(length = 50, nullable = false)
@@ -35,6 +37,7 @@ public class User {
     @Email
     private String email;
 
-    @Column
+    @Column(length = 15,nullable = false)
+    @Pattern(regexp = "[a-zA-Z]")
     private String filiere;
 }
