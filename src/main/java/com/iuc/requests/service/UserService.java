@@ -6,10 +6,12 @@ import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
+import com.sun.tools.sjavac.Log;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,127 +37,172 @@ public class UserService {
     return staffsDto;
   }
 
-  public StaffDto createStaff(StaffDto staffDto) {
-    Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
-    return modelMapper.map(staff, StaffDto.class);
-  }
+  public Staff createStaff(StaffDto staffDto) {
 
-  /**
-   * Auteur : Eric Wouwo Date : 27/01/2022
-   *
-   * @param email
-   * @return
-   */
-  public Staff findStaffByEmail(String email) {
-    return staffRepository.findByEmail(email);
-  }
-
-  /**
-   * Auteur : Eric Wouwo Date : 27/01/2022
-   *
-   * @param userRegistration
-   * @return
-   */
-  public Staff findStaffByMatricule(String userRegistration) {
-    return staffRepository.findByMatricule(userRegistration);
-  }
-
-  /**
-   * Auteur : Eric Wouwo Date : 27/01/2022
-   *
-   * @param id
-   */
-  public void deletStaffById(final Long id) {
-
-    Optional<Staff> staffOptional = staffRepository.findById(id);
-    if (staffOptional.isPresent()) {
-      staffRepository.deleteById(id);
+    try {
+      return staffRepository.save(modelMapper.map(staffDto, Staff.class));
+    } catch (Exception e) {
+      return null;
     }
   }
 
-  /**
-   * Auteur : Eric Wouwo Date : 27/01/2022
-   *
-   * @param staffDto
-   * @return
-   */
-  public StaffDto updateStaff(StaffDto staffDto) {
-    return modelMapper.map(
-        staffRepository.save(modelMapper.map(staffDto, Staff.class)), StaffDto.class);
+  public Staff findStaffByEmail(String email) {
+
+    try {
+      return staffRepository.findByEmail(email);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
   }
 
-  /**
-   * Auteur : Eric Wouwo Date : 27/01/2022
-   *
-   * @param id
-   * @return
-   */
-  public Staff getStaffById(final Long id) {
-    Optional<Staff> staffOptional = staffRepository.findById(id);
-    return staffOptional.isPresent() ? staffOptional.get() : null;
+  public Staff findStaffByMatricule(String userRegistration) {
+
+    try {
+      return staffRepository.findByMatricule(userRegistration);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
-  /**
-   * Auteur : Eric Wouwo Date : 28/01/2022
-   *
-   * @param email
-   * @return
-   */
+  public void deleteStaffByEmail(String email) {
+    try {
+      staffRepository.delete(staffRepository.findByEmail(email));
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+  }
+
+  public void deleteStaffByMatricule(String matricule) {
+    try {
+      staffRepository.delete(staffRepository.findByMatricule(matricule));
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+  }
+
+  public Staff updateStaff(StaffDto staffDto) {
+
+    Staff currentStaff = modelMapper.map(staffDto, Staff.class);
+    Optional<Staff> staffDb = staffRepository.findById(currentStaff.getId());
+
+    if (staffDb.isPresent()) {
+      if (!currentStaff.getEmail().equals(staffDb.get().getEmail())) {
+        staffDb.get().setEmail(currentStaff.getEmail());
+      }
+      if (!currentStaff.getFiliere().equals(staffDb.get().getFiliere())) {
+        staffDb.get().setFiliere(currentStaff.getFiliere());
+      }
+      if (!currentStaff.getPosteOccupe().equals(staffDb.get().getPosteOccupe())) {
+        staffDb.get().setPosteOccupe(currentStaff.getPosteOccupe());
+      }
+
+      if (!currentStaff.getMatricule().equals(staffDb.get().getMatricule())) {
+        staffDb.get().setMatricule(currentStaff.getMatricule());
+      }
+      if (!currentStaff.getNom().equals(staffDb.get().getNom())) {
+        staffDb.get().setNom(currentStaff.getNom());
+      }
+      if (!currentStaff.getPrenom().equals(staffDb.get().getPrenom())) {
+        staffDb.get().setNom(currentStaff.getNom());
+      }
+      if (!currentStaff.getPassword().equals(staffDb.get().getPassword())) {
+        staffDb.get().setPassword(currentStaff.getPassword());
+      }
+      return staffRepository.save(staffDb.get());
+
+    } else {
+      return null;
+    }
+  }
+
+  public Student updateStudent(StudentDto studentDto) {
+
+    Student currentStudent = modelMapper.map(studentDto, Student.class);
+    Optional<Student> studentDb = studentRepository.findById(currentStudent.getId());
+
+    if (studentDb.isPresent()) {
+
+      if (!currentStudent.getEmail().equals(studentDb.get().getEmail())) {
+        studentDb.get().setEmail(currentStudent.getEmail());
+      }
+      if (!currentStudent.getNiveau().equals(studentDb.get().getNiveau())) {
+        studentDb.get().setNiveau(currentStudent.getNiveau());
+      }
+      if (!currentStudent.getNom().equals(studentDb.get().getNom())) {
+        studentDb.get().setNom(currentStudent.getNom());
+      }
+      if (!currentStudent.getPrenom().equals(studentDb.get().getPrenom())) {
+        studentDb.get().setPrenom(currentStudent.getPrenom());
+      }
+      if (!currentStudent.getMatricule().equals(studentDb.get().getMatricule())) {
+        studentDb.get().setMatricule(currentStudent.getMatricule());
+      }
+      if (!currentStudent.getPassword().equals(studentDb.get().getPassword())) {
+        studentDb.get().setPassword(currentStudent.getPassword());
+      }
+      if (!currentStudent.getNiveau().equals(studentDb.get().getNiveau())) {
+        studentDb.get().setNiveau(currentStudent.getNiveau());
+      }
+      return studentRepository.save(studentDb.get());
+    } else {
+      return null;
+    }
+  }
+
   public Student findStrudentByEmail(String email) {
-    return studentRepository.findStudentByEmail(email);
+    try {
+      return studentRepository.findStudentByEmail(email);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   public Student findStudentByMatricule(String matricule) {
-    return studentRepository.findStudentByMatricule(matricule);
-  }
-
-  /**
-   * Auteur : Eric Wouwo Date : 28/01/2022
-   *
-   * @param filiere
-   * @return
-   */
-  public List<StudentDto> findAllStudentByFiliere(String filiere) {
-    Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
-    List<StudentDto> studentDtoList = new ArrayList<>();
-    students.forEach(
-        student -> {
-          studentDtoList.add(modelMapper.map(student, StudentDto.class));
-        });
-    return studentDtoList;
-  }
-
-  /**
-   * Auteur : Eric Wouwo Date : 28/01/2022
-   *
-   * @param studentDto
-   * @return
-   */
-  public StudentDto createStudent(StudentDto studentDto) {
-    return modelMapper.map(
-        studentRepository.save(modelMapper.map(studentDto, Student.class)), StudentDto.class);
-  }
-
-  /**
-   * Auteur : Eric Wouwo Date : 28/01/2022
-   *
-   * @param id
-   */
-  public void deleteStudentById(final Long id) {
-    Optional<Student> studentOptional = studentRepository.findById(id);
-    if (studentOptional.isPresent()) {
-      studentRepository.deleteById(id);
+    try {
+      return studentRepository.findStudentByMatricule(matricule);
+    } catch (Exception e) {
+      return null;
     }
   }
 
-  /**
-   * Auteur : Eric Wouwo Date : 28/01/2022
-   *
-   * @param id
-   * @return
-   */
-  public Student getStudentById(final Long id) {
-    Optional<Student> studentOptional = studentRepository.findById(id);
-    return studentOptional.isPresent() ? studentOptional.get() : null;
+  public List<Student> findAllStudentByFiliere(String filiere) {
+    List<Student> studentList = new ArrayList<>();
+    try {
+      Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
+
+      students.forEach(
+          student -> {
+            studentList.add(student);
+          });
+      return studentList;
+    } catch (Exception e) {
+      return studentList;
+    }
+  }
+
+  public Student createStudent(StudentDto studentDto) {
+
+    try {
+      return studentRepository.save(modelMapper.map(studentDto, Student.class));
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public void deleteStudentByMatricule(String matricule) {
+    try {
+      studentRepository.delete(studentRepository.findStudentByMatricule(matricule));
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+  }
+
+  public void deleteStudentByEmail(String email) {
+    try {
+      studentRepository.delete(studentRepository.findStudentByEmail(email));
+    } catch (Exception e) {
+      System.err.println(e);
+
+    }
   }
 }

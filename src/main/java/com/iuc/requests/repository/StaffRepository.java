@@ -8,4 +8,6 @@ public interface StaffRepository extends CrudRepository<Staff, Long> {
     Staff findByEmail(String email);
 
     Staff findByMatricule(String matricule);
+
+
 }
