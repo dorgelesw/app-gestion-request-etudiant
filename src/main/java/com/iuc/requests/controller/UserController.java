@@ -20,14 +20,14 @@ public class UserController {
 
   @GetMapping("/staff")
   public StaffDto findStaffByEmail(@RequestParam(value = "email") @Email String email) {
-    return modelMapper.map(userService.findStaffByEmail(email), StaffDto.class);
+    return userService.findStaffByEmail(email);
   }
 
   @GetMapping("/staff")
   public StaffDto findStaffByMatricule(
-      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z]")
+      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z0-9]")
           String userRegistration) {
-    return modelMapper.map(userService.findStaffByMatricule(userRegistration), StaffDto.class);
+    return userService.findStaffByMatricule(userRegistration);
   }
 
   @GetMapping("/staffs")
@@ -37,12 +37,12 @@ public class UserController {
 
   @PostMapping("/staff")
   public StaffDto createStaff(@RequestBody StaffDto staffDto) {
-    return modelMapper.map(userService.createStaff(staffDto), StaffDto.class);
+    return userService.createStaff(staffDto);
   }
 
   @DeleteMapping("/staff")
   public void deleteStaffByMatricule(
-      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z]")
+      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z0-9]")
           String userRegistration) {
     userService.deleteStaffByMatricule(userRegistration);
   }
@@ -54,35 +54,34 @@ public class UserController {
 
   @PutMapping("/staff")
   public StaffDto updateStaff(@RequestBody StaffDto staffDto) {
-    return modelMapper.map(userService.updateStaff(staffDto), StaffDto.class);
+    return userService.updateStaff(staffDto);
   }
 
   @GetMapping("/student")
   public StudentDto findStrudentByEmail(@RequestParam(value = "email") @Email String email) {
-    return modelMapper.map(userService.findStrudentByEmail(email), StudentDto.class);
+    return userService.findStrudentByEmail(email);
   }
 
   @GetMapping("matricule")
   public StudentDto findStudentByMatricule(
-      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z]") String matricule) {
-    return modelMapper.map(userService.findStudentByMatricule(matricule), StudentDto.class);
+      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
+    return userService.findStudentByMatricule(matricule);
   }
 
   @GetMapping("filiere")
   public List<StudentDto> findAllStudentByFiliere(
-      @RequestParam(value = "filiere") @Pattern(regexp = "[a-zA-Z]") String filiere) {
-    return (List<StudentDto>)
-        modelMapper.map(userService.findAllStudentByFiliere(filiere), StudentDto.class);
+      @RequestParam(value = "filiere") @Pattern(regexp = "[a-zA-Z0-9]") String filiere) {
+    return userService.findAllStudentByFiliere(filiere);
   }
 
   @PostMapping("/student")
   public StudentDto createStudent(@RequestBody StudentDto studentDto) {
-    return modelMapper.map(userService.createStudent(studentDto), StudentDto.class);
+    return userService.createStudent(studentDto);
   }
 
   @DeleteMapping("student")
   public void deleteStudentByMatricule(
-      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z]") String matricule) {
+      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
     userService.deleteStudentByMatricule(matricule);
   }
 
@@ -93,7 +92,6 @@ public class UserController {
 
   @PutMapping("/student")
   public StudentDto updateStudent(@RequestBody StudentDto studentDto) {
-
-    return modelMapper.map(userService.updateStudent(studentDto), StudentDto.class);
+    return userService.updateStudent(studentDto);
   }
 }

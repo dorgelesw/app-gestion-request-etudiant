@@ -37,28 +37,29 @@ public class UserService {
     return staffsDto;
   }
 
-  public Staff createStaff(StaffDto staffDto) {
+  public StaffDto createStaff(StaffDto staffDto) {
 
     try {
-      return staffRepository.save(modelMapper.map(staffDto, Staff.class));
+      return modelMapper.map(
+          staffRepository.save(modelMapper.map(staffDto, Staff.class)), StaffDto.class);
     } catch (Exception e) {
       return null;
     }
   }
 
-  public Staff findStaffByEmail(String email) {
+  public StaffDto findStaffByEmail(String email) {
 
     try {
-      return staffRepository.findByEmail(email);
+      return modelMapper.map(staffRepository.findByEmail(email), StaffDto.class);
     } catch (EntityNotFoundException e) {
       return null;
     }
   }
 
-  public Staff findStaffByMatricule(String userRegistration) {
+  public StaffDto findStaffByMatricule(String userRegistration) {
 
     try {
-      return staffRepository.findByMatricule(userRegistration);
+      return modelMapper.map(staffRepository.findByMatricule(userRegistration), StaffDto.class);
     } catch (Exception e) {
       return null;
     }
@@ -80,7 +81,7 @@ public class UserService {
     }
   }
 
-  public Staff updateStaff(StaffDto staffDto) {
+  public StaffDto updateStaff(StaffDto staffDto) {
 
     Staff currentStaff = modelMapper.map(staffDto, Staff.class);
     Optional<Staff> staffDb = staffRepository.findById(currentStaff.getId());
@@ -108,14 +109,14 @@ public class UserService {
       if (!currentStaff.getPassword().equals(staffDb.get().getPassword())) {
         staffDb.get().setPassword(currentStaff.getPassword());
       }
-      return staffRepository.save(staffDb.get());
+      return modelMapper.map(staffRepository.save(staffDb.get()), StaffDto.class);
 
     } else {
       return null;
     }
   }
 
-  public Student updateStudent(StudentDto studentDto) {
+  public StudentDto updateStudent(StudentDto studentDto) {
 
     Student currentStudent = modelMapper.map(studentDto, Student.class);
     Optional<Student> studentDb = studentRepository.findById(currentStudent.getId());
@@ -143,47 +144,48 @@ public class UserService {
       if (!currentStudent.getNiveau().equals(studentDb.get().getNiveau())) {
         studentDb.get().setNiveau(currentStudent.getNiveau());
       }
-      return studentRepository.save(studentDb.get());
+      return modelMapper.map(studentRepository.save(studentDb.get()), StudentDto.class);
     } else {
       return null;
     }
   }
 
-  public Student findStrudentByEmail(String email) {
+  public StudentDto findStrudentByEmail(String email) {
     try {
-      return studentRepository.findStudentByEmail(email);
+      return modelMapper.map(studentRepository.findStudentByEmail(email), StudentDto.class);
     } catch (Exception e) {
       return null;
     }
   }
 
-  public Student findStudentByMatricule(String matricule) {
+  public StudentDto findStudentByMatricule(String matricule) {
     try {
-      return studentRepository.findStudentByMatricule(matricule);
+      return modelMapper.map(studentRepository.findStudentByMatricule(matricule), StudentDto.class);
     } catch (Exception e) {
       return null;
     }
   }
 
-  public List<Student> findAllStudentByFiliere(String filiere) {
-    List<Student> studentList = new ArrayList<>();
+  public List<StudentDto> findAllStudentByFiliere(String filiere) {
+    List<StudentDto> studentDtoList = new ArrayList<>();
     try {
       Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
 
       students.forEach(
           student -> {
-            studentList.add(student);
+            studentDtoList.add(modelMapper.map(student, StudentDto.class));
           });
-      return studentList;
+      return studentDtoList;
     } catch (Exception e) {
-      return studentList;
+      return studentDtoList;
     }
   }
 
-  public Student createStudent(StudentDto studentDto) {
+  public StudentDto createStudent(StudentDto studentDto) {
 
     try {
-      return studentRepository.save(modelMapper.map(studentDto, Student.class));
+      return modelMapper.map(
+          studentRepository.save(modelMapper.map(studentDto, Student.class)), StudentDto.class);
     } catch (Exception e) {
       return null;
     }
@@ -202,7 +204,6 @@ public class UserService {
       studentRepository.delete(studentRepository.findStudentByEmail(email));
     } catch (Exception e) {
       System.err.println(e);
-
     }
   }
 }

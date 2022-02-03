@@ -10,4 +10,6 @@ public interface StaffRepository extends CrudRepository<Staff, Long> {
     Staff findByMatricule(String matricule);
 
 
+
+
 }
