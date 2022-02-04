@@ -156,16 +156,15 @@ public class UserService {
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
 
-      List<StudentDto> studentDtoList = new ArrayList<>();
-      Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
-      if (!students.equals(null)) {
-        students.forEach(
-            student -> {
-              studentDtoList.add(modelMapper.map(student, StudentDto.class));
-            });
-      }
-      return studentDtoList;
-
+    List<StudentDto> studentDtoList = new ArrayList<>();
+    Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
+    if (!students.equals(null)) {
+      students.forEach(
+          student -> {
+            studentDtoList.add(modelMapper.map(student, StudentDto.class));
+          });
+    }
+    return studentDtoList;
   }
 
   public StudentDto createStudent(StudentDto studentDto) {

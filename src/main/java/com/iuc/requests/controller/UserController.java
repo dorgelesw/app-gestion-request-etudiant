@@ -54,6 +54,7 @@ public class UserController {
 
   @PutMapping("/staff")
   public StaffDto updateStaff(@RequestBody StaffDto staffDto) {
+
     return userService.updateStaff(staffDto);
   }
 
@@ -69,8 +70,7 @@ public class UserController {
   }
 
   @GetMapping("filiere")
-  public List<StudentDto> findAllStudentByFiliere(
-      @RequestParam(value = "filiere") String filiere) {
+  public List<StudentDto> findAllStudentByFiliere(@RequestParam(value = "filiere") String filiere) {
     return userService.findAllStudentByFiliere(filiere);
   }
 
