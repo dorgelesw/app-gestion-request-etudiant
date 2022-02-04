@@ -70,7 +70,7 @@ public class UserController {
 
   @GetMapping("filiere")
   public List<StudentDto> findAllStudentByFiliere(
-      @RequestParam(value = "filiere") @Pattern(regexp = "[a-zA-Z0-9]") String filiere) {
+      @RequestParam(value = "filiere") String filiere) {
     return userService.findAllStudentByFiliere(filiere);
   }
 
