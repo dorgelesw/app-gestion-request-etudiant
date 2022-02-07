@@ -1,13 +1,18 @@
 package com.iuc.requests.repository;
 
 import com.iuc.requests.dao.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface StudentRepository extends CrudRepository<Student, Long> {
+import java.util.List;
 
-  Student findStudentByEmail(String email);
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-  Student findStudentByMatricule(String matricule);
+  Student findByEmail(String email);
 
-  Iterable<Student> findAllByFiliere(String filiere);
+  Student findByMatricule(String matricule);
+
+  @Query("select s FROM Student s where  s.filiere = ?1")
+  List<Student> findAllByFiliere(String filiere);
 }
