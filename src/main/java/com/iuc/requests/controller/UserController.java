@@ -59,7 +59,7 @@ public class UserController {
   }
 
   @GetMapping("/student")
-  public StudentDto findStrudentByEmail(@RequestParam(value = "email") @Email String email) {
+  public StudentDto findStudentByEmail(@RequestParam(value = "email") @Email String email) {
     return userService.findStrudentByEmail(email);
   }
 
