@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/iuc/users")
 public class UserController {
 
-  @Autowired private UserService userService;
-  @Autowired ModelMapper modelMapper;
+  private UserService userService;
+
+  public UserController(UserService userService){
+    this.userService =userService;
+  }
 
   @GetMapping("/staff")
   public StaffDto findStaffByEmail(@RequestParam(value = "email") @Email String email) {
