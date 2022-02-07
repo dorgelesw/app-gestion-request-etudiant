@@ -6,59 +6,60 @@ import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
-import com.sun.tools.sjavac.Log;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-  @Autowired private StaffRepository staffRepository;
 
-  @Autowired private StudentRepository studentRepository;
+  private StaffRepository staffRepository;
 
-  @Autowired ModelMapper modelMapper;
+  private StudentRepository studentRepository;
+
+  private ModelMapper modelMapper;
+
+  public UserService(StaffRepository staffRepository, StudentRepository studentRepository, ModelMapper modelMapper){
+    this.staffRepository = staffRepository;
+    this.studentRepository=studentRepository;
+    this.modelMapper = modelMapper;
+  }
 
   public List<StaffDto> findAllStaffs() {
 
-    Iterable<Staff> staffs = staffRepository.findAll();
-    List<StaffDto> staffsDto = new ArrayList<>();
-    staffs.forEach(
-        staff -> {
-          staffsDto.add(modelMapper.map(staff, StaffDto.class));
-        });
+    List<Staff> staffs = staffRepository.findAll();
+     return  staffs.stream().map(staff -> modelMapper.map(staff, StaffDto.class)).collect(Collectors.toList());
 
-    return staffsDto;
   }
 
   public StaffDto createStaff(StaffDto staffDto) {
 
     Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
-    return !staff.equals(null) ? modelMapper.map(staff, StaffDto.class) : null;
+    return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
   }
 
   public StaffDto findStaffByEmail(String email) {
 
     Staff staff = staffRepository.findByEmail(email);
-    return !staff.equals(null) ? modelMapper.map(staff, StaffDto.class) : null;
+    return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
   }
 
   public StaffDto findStaffByMatricule(String userRegistration) {
 
     Staff staff = staffRepository.findByMatricule(userRegistration);
-    return !staff.equals(null) ? modelMapper.map(staff, StaffDto.class) : null;
+    return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
   }
 
   public void deleteStaffByEmail(String email) {
 
     Staff staff = staffRepository.findByEmail(email);
-    if (!staff.equals(null)) {
+    if (staff != null){
       staffRepository.delete(staff);
     }
   }
@@ -66,7 +67,7 @@ public class UserService {
   public void deleteStaffByMatricule(String matricule) {
 
     Staff staff = staffRepository.findByMatricule(matricule);
-    if (!staff.equals(null)) {
+    if (staff != null) {
       staffRepository.delete(staff);
     }
   }
@@ -74,33 +75,33 @@ public class UserService {
   public StaffDto updateStaff(StaffDto staffDto) {
 
     Staff currentStaff = modelMapper.map(staffDto, Staff.class);
-    Staff staffDb = staffRepository.findByEmail(currentStaff.getEmail());
+    Staff staffToUpdate = staffRepository.findByEmail(currentStaff.getEmail());
 
-    if (!staffDb.equals(null)) {
-      if (!currentStaff.getEmail().equals(staffDb.getEmail())) {
-        staffDb.setEmail(currentStaff.getEmail());
+    if (!staffToUpdate.equals(null)) {
+      if (!currentStaff.getEmail().equals(staffToUpdate.getEmail())) {
+        staffToUpdate.setEmail(currentStaff.getEmail());
       }
-      if (!currentStaff.getFiliere().equals(staffDb.getFiliere())) {
-        staffDb.setFiliere(currentStaff.getFiliere());
+      if (!currentStaff.getFiliere().equals(staffToUpdate.getFiliere())) {
+        staffToUpdate.setFiliere(currentStaff.getFiliere());
       }
-      if (!currentStaff.getPosteOccupe().equals(staffDb.getPosteOccupe())) {
-        staffDb.setPosteOccupe(currentStaff.getPosteOccupe());
+      if (!currentStaff.getPosteOccupe().equals(staffToUpdate.getPosteOccupe())) {
+        staffToUpdate.setPosteOccupe(currentStaff.getPosteOccupe());
       }
 
-      if (!currentStaff.getMatricule().equals(staffDb.getMatricule())) {
-        staffDb.setMatricule(currentStaff.getMatricule());
+      if (!currentStaff.getMatricule().equals(staffToUpdate.getMatricule())) {
+        staffToUpdate.setMatricule(currentStaff.getMatricule());
       }
-      if (!currentStaff.getNom().equals(staffDb.getNom())) {
-        staffDb.setNom(currentStaff.getNom());
+      if (!currentStaff.getNom().equals(staffToUpdate.getNom())) {
+        staffToUpdate.setNom(currentStaff.getNom());
       }
-      if (!currentStaff.getPrenom().equals(staffDb.getPrenom())) {
-        staffDb.setNom(currentStaff.getNom());
+      if (!currentStaff.getPrenom().equals(staffToUpdate.getPrenom())) {
+        staffToUpdate.setNom(currentStaff.getNom());
       }
-      if (!currentStaff.getPassword().equals(staffDb.getPassword())) {
-        staffDb.setPassword(currentStaff.getPassword());
+      if (!currentStaff.getPassword().equals(staffToUpdate.getPassword())) {
+        staffToUpdate.setPassword(currentStaff.getPassword());
       }
-      return !staffRepository.save(staffDb).equals(null)
-          ? modelMapper.map(staffRepository.save(staffDb), StaffDto.class)
+      return !staffRepository.save(staffToUpdate).equals(null)
+          ? modelMapper.map(staffRepository.save(staffToUpdate), StaffDto.class)
           : null;
     } else {
       return null;
@@ -110,7 +111,7 @@ public class UserService {
   public StudentDto updateStudent(StudentDto studentDto) {
 
     Student currentStudent = modelMapper.map(studentDto, Student.class);
-    Student studentDb = studentRepository.findStudentByEmail(currentStudent.getEmail());
+    Student studentDb = studentRepository.findByEmail(currentStudent.getEmail());
 
     if (studentDb.equals(null)) {
 
@@ -145,26 +146,18 @@ public class UserService {
   }
 
   public StudentDto findStrudentByEmail(String email) {
-    Student student = studentRepository.findStudentByEmail(email);
+    Student student = studentRepository.findByEmail(email);
     return !student.equals(null) ? modelMapper.map(student, StudentDto.class) : null;
   }
 
   public StudentDto findStudentByMatricule(String matricule) {
-    Student student = studentRepository.findStudentByMatricule(matricule);
+    Student student = studentRepository.findByMatricule(matricule);
     return !student.equals(null) ? modelMapper.map(student, StudentDto.class) : null;
   }
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
-
-    List<StudentDto> studentDtoList = new ArrayList<>();
-    Iterable<Student> students = studentRepository.findAllByFiliere(filiere);
-    if (!students.equals(null)) {
-      students.forEach(
-          student -> {
-            studentDtoList.add(modelMapper.map(student, StudentDto.class));
-          });
-    }
-    return studentDtoList;
+    List<Student> students = studentRepository.findAllByFiliere(filiere);
+    return students.stream().map(student -> modelMapper.map(student,StudentDto.class)).collect(Collectors.toList());
   }
 
   public StudentDto createStudent(StudentDto studentDto) {
@@ -173,15 +166,14 @@ public class UserService {
   }
 
   public void deleteStudentByMatricule(String matricule) {
-    Student student = studentRepository.findStudentByMatricule(matricule);
+    Student student = studentRepository.findByMatricule(matricule);
     if (!student.equals(null)) {
       studentRepository.delete(student);
     }
   }
 
   public void deleteStudentByEmail(String email) {
-
-    Student student = studentRepository.findStudentByEmail(email);
+    Student student = studentRepository.findByEmail(email);
     if (!student.equals(null)) {
       studentRepository.delete(student);
     }
