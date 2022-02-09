@@ -2,34 +2,33 @@ package com.iuc.requests.service;
 
 import com.iuc.requests.dao.Staff;
 import com.iuc.requests.dao.Student;
+import com.iuc.requests.dao.User;
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
-public class UserService {
+public class UserService{
 
-
-  private StaffRepository staffRepository;
-
-  private StudentRepository studentRepository;
-
-  private ModelMapper modelMapper;
-
+  @Autowired private StaffRepository staffRepository;
+  @Autowired private StudentRepository studentRepository;
+  @Autowired private ModelMapper modelMapper;
+/**
   public UserService(StaffRepository staffRepository, StudentRepository studentRepository, ModelMapper modelMapper){
     this.staffRepository = staffRepository;
     this.studentRepository=studentRepository;
     this.modelMapper = modelMapper;
   }
+
+ */
+
 
   public List<StaffDto> findAllStaffs() {
 
@@ -77,7 +76,7 @@ public class UserService {
     Staff currentStaff = modelMapper.map(staffDto, Staff.class);
     Staff staffToUpdate = staffRepository.findByEmail(currentStaff.getEmail());
 
-    if (!staffToUpdate.equals(null)) {
+    if (staffToUpdate != null) {
       if (!currentStaff.getEmail().equals(staffToUpdate.getEmail())) {
         staffToUpdate.setEmail(currentStaff.getEmail());
       }
@@ -95,7 +94,7 @@ public class UserService {
         staffToUpdate.setNom(currentStaff.getNom());
       }
       if (!currentStaff.getPrenom().equals(staffToUpdate.getPrenom())) {
-        staffToUpdate.setNom(currentStaff.getNom());
+        staffToUpdate.setPrenom(currentStaff.getPrenom());
       }
       if (!currentStaff.getPassword().equals(staffToUpdate.getPassword())) {
         staffToUpdate.setPassword(currentStaff.getPassword());
@@ -113,7 +112,7 @@ public class UserService {
     Student currentStudent = modelMapper.map(studentDto, Student.class);
     Student studentDb = studentRepository.findByEmail(currentStudent.getEmail());
 
-    if (studentDb.equals(null)) {
+    if (studentDb != null) {
 
       if (!currentStudent.getEmail().equals(studentDb.getEmail())) {
         studentDb.setEmail(currentStudent.getEmail());
@@ -136,6 +135,9 @@ public class UserService {
       if (!currentStudent.getNiveau().equals(studentDb.getNiveau())) {
         studentDb.setNiveau(currentStudent.getNiveau());
       }
+      if (!currentStudent.getFiliere().equals(studentDb.getFiliere())) {
+        studentDb.setFiliere(currentStudent.getFiliere());
+      }
       return !studentRepository.save(studentDb).equals(null)
           ? modelMapper.map(studentRepository.save(studentDb), StudentDto.class)
           : null;
@@ -145,14 +147,14 @@ public class UserService {
     }
   }
 
-  public StudentDto findStrudentByEmail(String email) {
+  public StudentDto findStudentByEmail(String email) {
     Student student = studentRepository.findByEmail(email);
-    return !student.equals(null) ? modelMapper.map(student, StudentDto.class) : null;
+    return student != null ? modelMapper.map(student, StudentDto.class) : null;
   }
 
   public StudentDto findStudentByMatricule(String matricule) {
     Student student = studentRepository.findByMatricule(matricule);
-    return !student.equals(null) ? modelMapper.map(student, StudentDto.class) : null;
+    return student != null ? modelMapper.map(student, StudentDto.class) : null;
   }
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
@@ -162,19 +164,24 @@ public class UserService {
 
   public StudentDto createStudent(StudentDto studentDto) {
     Student student = studentRepository.save(modelMapper.map(studentDto, Student.class));
-    return !student.equals(null) ? modelMapper.map(student, StudentDto.class) : null;
+    return student != null ? modelMapper.map(student, StudentDto.class) : null;
   }
+
+  public Student createStudent1(Student student) {
+    return studentRepository.save(student);
+  }
+
 
   public void deleteStudentByMatricule(String matricule) {
     Student student = studentRepository.findByMatricule(matricule);
-    if (!student.equals(null)) {
+    if (student != null) {
       studentRepository.delete(student);
     }
   }
 
   public void deleteStudentByEmail(String email) {
     Student student = studentRepository.findByEmail(email);
-    if (!student.equals(null)) {
+    if (student != null) {
       studentRepository.delete(student);
     }
   }
