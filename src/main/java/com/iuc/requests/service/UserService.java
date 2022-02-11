@@ -2,7 +2,6 @@ package com.iuc.requests.service;
 
 import com.iuc.requests.dao.Staff;
 import com.iuc.requests.dao.Student;
-import com.iuc.requests.dao.User;
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
@@ -20,25 +19,14 @@ public class UserService{
   @Autowired private StaffRepository staffRepository;
   @Autowired private StudentRepository studentRepository;
   @Autowired private ModelMapper modelMapper;
-/**
-  public UserService(StaffRepository staffRepository, StudentRepository studentRepository, ModelMapper modelMapper){
-    this.staffRepository = staffRepository;
-    this.studentRepository=studentRepository;
-    this.modelMapper = modelMapper;
-  }
-
- */
-
 
   public List<StaffDto> findAllStaffs() {
-
     List<Staff> staffs = staffRepository.findAll();
      return  staffs.stream().map(staff -> modelMapper.map(staff, StaffDto.class)).collect(Collectors.toList());
 
   }
 
   public StaffDto createStaff(StaffDto staffDto) {
-
     Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
     return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
   }
@@ -50,13 +38,11 @@ public class UserService{
   }
 
   public StaffDto findStaffByMatricule(String userRegistration) {
-
     Staff staff = staffRepository.findByMatricule(userRegistration);
     return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
   }
 
   public void deleteStaffByEmail(String email) {
-
     Staff staff = staffRepository.findByEmail(email);
     if (staff != null){
       staffRepository.delete(staff);
@@ -72,7 +58,6 @@ public class UserService{
   }
 
   public StaffDto updateStaff(StaffDto staffDto) {
-
     Staff currentStaff = modelMapper.map(staffDto, Staff.class);
     Staff staffToUpdate = staffRepository.findByEmail(currentStaff.getEmail());
 
@@ -108,7 +93,6 @@ public class UserService{
   }
 
   public StudentDto updateStudent(StudentDto studentDto) {
-
     Student currentStudent = modelMapper.map(studentDto, Student.class);
     Student studentDb = studentRepository.findByEmail(currentStudent.getEmail());
 
@@ -166,11 +150,6 @@ public class UserService{
     Student student = studentRepository.save(modelMapper.map(studentDto, Student.class));
     return student != null ? modelMapper.map(student, StudentDto.class) : null;
   }
-
-  public Student createStudent1(Student student) {
-    return studentRepository.save(student);
-  }
-
 
   public void deleteStudentByMatricule(String matricule) {
     Student student = studentRepository.findByMatricule(matricule);

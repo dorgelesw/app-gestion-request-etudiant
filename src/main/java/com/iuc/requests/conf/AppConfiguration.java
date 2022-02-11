@@ -1,5 +1,8 @@
 package com.iuc.requests.conf;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iuc.requests.controller.UserController;
+import com.iuc.requests.dao.User;
 import com.iuc.requests.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +16,7 @@ public class AppConfiguration {
         return new ModelMapper();
     }
 
-    @Bean
-    public UserService userService(){ return new UserService();}
+
+
+
 }

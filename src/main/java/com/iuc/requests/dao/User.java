@@ -38,6 +38,6 @@ public class User {
     private String email;
 
     @Column(length = 15,nullable = false)
-    //@Pattern(regexp = "[a-zA-Z_0-9]")
+    //@Pattern(regexp = "[a-zA-Z0-9]")
     private String filiere;
 }

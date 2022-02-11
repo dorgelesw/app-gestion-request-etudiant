@@ -7,10 +7,10 @@ spring:
   application:
     name: admin console com.iuc.requests.api.service
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/iuc_request_db?useSSL=false
-    username: johndoe
-    password: john@doe
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/iuc_request_db?allowPublicKeyRetrieval=true&useSSL=false  #j'ai rajoute allowPublicKeyRetrieval=true&
+    username: root  #johndoe
+    password: Certificationjava@2022  #john@doe
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
