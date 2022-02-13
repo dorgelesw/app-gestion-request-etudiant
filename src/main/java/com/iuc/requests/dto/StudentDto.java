@@ -5,15 +5,15 @@ import lombok.Data;
 @Data
 public class StudentDto {
 
-    private String matricule;
+  private String matricule;
 
-    private String nom;
+  private String nom;
 
-    private String prenom;
+  private String prenom;
 
-    private String email;
+  private String email;
 
-    private String niveau;
+  private String niveau;
 
-    private String filiere;
+  private String filiere;
 }

@@ -1,8 +1,6 @@
 package com.iuc.requests.repository;
 
 import com.iuc.requests.dao.RequestType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RequestTypeRepository extends CrudRepository<RequestType, Long> {
-
-}
+public interface RequestTypeRepository extends JpaRepository<RequestType, Long> {}

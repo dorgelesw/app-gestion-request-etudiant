@@ -1,12 +1,11 @@
 package com.iuc.requests.repository;
 
-import com.iuc.requests.dao.Staff;
 import com.iuc.requests.dao.Student;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudentRepository extends CrudRepository<Student, Long> {
-    Student findByEmail(String email);
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    Student findByMatricule(String matricule);
+  Student findByEmail(String email);
 
+  Student findByMatricule(String matricule);
 }

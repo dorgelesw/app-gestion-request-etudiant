@@ -14,28 +14,24 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private StaffRepository staffRepository;
+  @Autowired ModelMapper modelMapper;
+  @Autowired private StaffRepository staffRepository;
+  @Autowired private StudentRepository studentRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
+  public List<StaffDto> findAllStaffs() {
 
-    @Autowired
-    ModelMapper modelMapper;
-
-    public List<StaffDto> findAllStaffs() {
-
-        Iterable<Staff> staffs = staffRepository.findAll();
-        List<StaffDto> staffsDto = new ArrayList<>();
-        staffs.forEach(staff -> {
-            staffsDto.add(modelMapper.map(staff, StaffDto.class));
+    Iterable<Staff> staffs = staffRepository.findAll();
+    List<StaffDto> staffsDto = new ArrayList<>();
+    staffs.forEach(
+        staff -> {
+          staffsDto.add(modelMapper.map(staff, StaffDto.class));
         });
 
-        return staffsDto;
-    }
+    return staffsDto;
+  }
 
-    public StaffDto save(StaffDto staffDto) {
-        Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
-        return modelMapper.map(staff, StaffDto.class);
-    }
+  public StaffDto save(StaffDto staffDto) {
+    Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
+    return modelMapper.map(staff, StaffDto.class);
+  }
 }

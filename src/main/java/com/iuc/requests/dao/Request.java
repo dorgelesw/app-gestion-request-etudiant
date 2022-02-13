@@ -1,45 +1,39 @@
 package com.iuc.requests.dao;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-@Data
 @Entity
 @DynamicUpdate
+@Getter
+@Setter
 public class Request {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Column(name = "request_code", length = 50, unique = true, nullable = false)
-    private Long requestCode;
+  @Column(name = "request_code", length = 50, unique = true, nullable = false)
+  private Long requestCode;
 
-    @Column(nullable = false)
-    private String requestType;
+  @Column(nullable = false)
+  private String requestType;
 
-    @Column(nullable = false)
-    private String requestReason;
+  @Column(nullable = false)
+  private String requestReason;
 
-    @Column
-    private String comment;
+  @Column private String comment;
 
-    @Column(nullable = false)
-    private String requestStatut;
+  @Column(nullable = false)
+  private String requestStatut;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+  @ManyToOne
+  @JoinColumn(name = "student_id")
+  private Student student;
 
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
+  @ManyToOne
+  @JoinColumn(name = "staff_id")
+  private Staff staff;
 }

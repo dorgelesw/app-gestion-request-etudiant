@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class IucRestRequestServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(IucRestRequestServiceApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(IucRestRequestServiceApplication.class, args);
+  }
 }
