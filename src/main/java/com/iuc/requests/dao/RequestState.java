@@ -1,20 +1,20 @@
 package com.iuc.requests.dao;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Data
 @Entity
+@DynamicUpdate
+@Getter
+@Setter
 public class RequestState {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Column(length = 8, unique = true, nullable = false)
-    private String statut;
+  @Column(length = 8, unique = true, nullable = false)
+  private String statut;
 }

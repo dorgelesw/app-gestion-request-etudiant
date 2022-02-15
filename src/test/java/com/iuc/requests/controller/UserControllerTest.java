@@ -1,61 +1,40 @@
 package com.iuc.requests.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iuc.requests.conf.AppConfigurationTest;
-import com.iuc.requests.conf.H2JpaConfiguration;
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
+import com.iuc.requests.repository.StaffRepository;
+import com.iuc.requests.repository.StudentRepository;
 import com.iuc.requests.service.UserService;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {AppConfigurationTest.class, H2JpaConfiguration.class})
-@AutoConfigureMockMvc
+@WebMvcTest(UserController.class)
 public class UserControllerTest {
 
-    public MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private UserService userService;
 
-    @InjectMocks
-    private UserController userController;
+    @MockBean
+    private StudentRepository studentRepository;
 
-    @Autowired H2JpaConfiguration.Populator populator;
-
-    @Autowired ObjectMapper objectMapper;
-
-    @Before
-    public void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-    }
-
-    @After
-    public void reset() {
-        populator.resetStaff();
-        populator.resetStudent();
-    }
+    @MockBean
+    private StaffRepository staffRepository;
 
     @Test
     public void when_find_staff_by_matricule_it_return_staff() throws Exception {
@@ -74,7 +53,7 @@ public class UserControllerTest {
         Mockito.when(userService.findStaffByMatricule(staffDto.getMatricule())).thenReturn(staffDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/findStaffByMatricule?userRegistration=2CIUC2020")
+        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/staff?matricule=2CIUC2020")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nom",Matchers.is(staffDto.getNom())))
@@ -85,7 +64,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
 
-        Mockito.verify(userService).findStaffByMatricule(staffDto.getMatricule());
+        Mockito.verify(userService,Mockito.times(1)).findStaffByMatricule(staffDto.getMatricule());
 
     }
 
@@ -105,7 +84,7 @@ public class UserControllerTest {
         Mockito.when(userService.findStaffByEmail(staffDto.getEmail())).thenReturn(staffDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/findStaffByEmail?email=staff-test-3@iuc.com")
+        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/staff?email=staff-test-3@iuc.com")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nom",Matchers.is(staffDto.getNom())))
@@ -116,7 +95,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
 
-        Mockito.verify(userService).findStaffByEmail(staffDto.getEmail());
+        Mockito.verify(userService, Mockito.times(1)).findStaffByEmail(staffDto.getEmail());
 
     }
 
@@ -137,9 +116,11 @@ public class UserControllerTest {
         Mockito.doNothing().when(userService).deleteStaffByEmail(staffDto.getEmail());
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/deleteStaffByEmail?email=staff-test-3@iuc.com")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/staff?email=staff-test-3@iuc.com")
                         .contentType(MediaType.APPLICATION_JSON))
-                       .andExpect(MockMvcResultMatchers.status().isNoContent());
+                       .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(userService,Mockito.times(1)).deleteStaffByEmail(staffDto.getEmail());
 
     }
 
@@ -160,9 +141,11 @@ public class UserControllerTest {
         Mockito.doNothing().when(userService).deleteStaffByMatricule(staffDto.getMatricule());
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/deleteStaffByMatricule?userRegistration=2CIUC2020")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/staff?matricule=2CIUC2020")
                         .contentType(MediaType.APPLICATION_JSON))
-                       .andExpect(MockMvcResultMatchers.status().isNoContent());
+                       .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(userService,Mockito.times(1)).deleteStaffByMatricule(staffDto.getMatricule());
 
     }
 
@@ -183,9 +166,11 @@ public class UserControllerTest {
         Mockito.doNothing().when(userService).deleteStudentByMatricule(studentDto.getMatricule());
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/deleteStudentByMatricule?matricule=1EIUC2021")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/student?matricule=1EIUC2021")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(userService,Mockito.times(1)).deleteStudentByMatricule(studentDto.getMatricule());
 
     }
 
@@ -206,9 +191,11 @@ public class UserControllerTest {
         Mockito.doNothing().when(userService).deleteStudentByEmail(studentDto.getEmail());
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/deleteStudentByEmail?email=student-test-3@iuc.com")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/iuc/users/student?email=student-test-3@iuc.com")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(userService,Mockito.times(1)).deleteStudentByEmail(studentDto.getEmail());
 
     }
 
@@ -228,7 +215,7 @@ public class UserControllerTest {
         Mockito.when(userService.findStudentByEmail(studentDto.getEmail())).thenReturn(studentDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/findStudentByEmail?email=student-test-3@iuc.com")
+        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/student?email=student-test-3@iuc.com")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nom",Matchers.is(studentDto.getNom())))
@@ -239,7 +226,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
 
-        Mockito.verify(userService).findStudentByEmail(studentDto.getEmail());
+        Mockito.verify(userService,Mockito.times(1)).findStudentByEmail(studentDto.getEmail());
 
     }
 
@@ -259,7 +246,7 @@ public class UserControllerTest {
         Mockito.when(userService.findStudentByMatricule(studentDto.getMatricule())).thenReturn(studentDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/findStudentByMatricule?matricule=1EIUC2021")
+        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/student?matricule=1EIUC2021")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nom",Matchers.is(studentDto.getNom())))
@@ -270,7 +257,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
 
-        Mockito.verify(userService).findStudentByMatricule(studentDto.getMatricule());
+        Mockito.verify(userService,Mockito.times(1)).findStudentByMatricule(studentDto.getMatricule());
 
     }
 
@@ -319,9 +306,9 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email",Matchers.is(staffDto1.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].posteOccupe",Matchers.is(staffDto1.getPosteOccupe())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(staffDto1.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].password",Matchers.is(staffDto1.getPassword())))
-     ;
-        Mockito.verify(userService).findAllStaffs();
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].password",Matchers.is(staffDto1.getPassword())));
+
+        Mockito.verify(userService, Mockito.times(1)).findAllStaffs();
     }
 
     @Test
@@ -353,7 +340,7 @@ public class UserControllerTest {
         Mockito.when(userService.findAllStudentByFiliere("MATHEMATIQUE")).thenReturn(studentDtoList);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/findStudentsByFiliere?filiere=MATHEMATIQUE")
+        mockMvc.perform(MockMvcRequestBuilders.get("/iuc/users/students?filiere=MATHEMATIQUE")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].nom",Matchers.is(studentDto.getNom())))
@@ -371,7 +358,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(studentDto1.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].password",Matchers.is(studentDto1.getPassword())));
 
-        Mockito.verify(userService).findAllStudentByFiliere("MATHEMATIQUE");
+        Mockito.verify(userService,Mockito.times(1)).findAllStudentByFiliere("MATHEMATIQUE");
 
     }
 
@@ -394,7 +381,7 @@ public class UserControllerTest {
         BDDMockito.given(userService.createStudent(studentDto)).willReturn(studentDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.post("/iuc/users/saveStudent")
+        mockMvc.perform(MockMvcRequestBuilders.post("/iuc/users/student")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonStudentDto))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -406,7 +393,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
 
-        Mockito.verify(userService).createStudent(studentDto);
+        Mockito.verify(userService, Mockito.times(1)).createStudent(studentDto);
     }
 
 
@@ -427,7 +414,7 @@ public class UserControllerTest {
 
         //ACT
         BDDMockito.given(userService.createStaff(staffDto)).willReturn(staffDto);
-        mockMvc.perform(MockMvcRequestBuilders.post("/iuc/users/saveStaff")
+        mockMvc.perform(MockMvcRequestBuilders.post("/iuc/users/staff")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonStaffDto))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -439,7 +426,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
 
-        Mockito.verify(userService).createStaff(staffDto);
+        Mockito.verify(userService, Mockito.times(1)).createStaff(staffDto);
     }
 
   @Test
@@ -459,7 +446,7 @@ public class UserControllerTest {
 
     //ACT
     BDDMockito.given(userService.updateStaff(staffDto)).willReturn(staffDto);
-    mockMvc.perform(MockMvcRequestBuilders.put("/iuc/users/updateStaff")
+    mockMvc.perform(MockMvcRequestBuilders.put("/iuc/users/staff")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonStaffDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -471,7 +458,7 @@ public class UserControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
             .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
 
-    Mockito.verify(userService).updateStaff(staffDto);
+    Mockito.verify(userService,Mockito.times(1)).updateStaff(staffDto);
   }
 
     @Test
@@ -492,7 +479,7 @@ public class UserControllerTest {
         BDDMockito.given(userService.updateStudent(studentDto)).willReturn(studentDto);
 
         //ASSERT
-        mockMvc.perform(MockMvcRequestBuilders.put("/iuc/users/updateStudent")
+        mockMvc.perform(MockMvcRequestBuilders.put("/iuc/users/student")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonStudentDto))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -504,7 +491,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
 
-        Mockito.verify(userService).updateStudent(studentDto);
+        Mockito.verify(userService, Mockito.times(1)).updateStudent(studentDto);
     }
 
 

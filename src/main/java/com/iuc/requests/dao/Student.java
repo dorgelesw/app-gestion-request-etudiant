@@ -1,18 +1,22 @@
 package com.iuc.requests.dao;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
-public class Student extends User{
+@DynamicUpdate
+@Getter
+@Setter
+public class Student extends User {
 
-    @Column(length = 2)
-    private String niveau;
+  @Column(length = 2)
+  private String niveau;
+  @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+  private List<Request> requests = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
-    private List<Request> requests = new ArrayList<>();
 }

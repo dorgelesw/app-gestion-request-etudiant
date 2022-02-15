@@ -9,6 +9,8 @@ import com.iuc.requests.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,8 @@ public class UserService{
   @Autowired private ModelMapper modelMapper;
 
   public List<StaffDto> findAllStaffs() {
-    List<Staff> staffs = staffRepository.findAll();
+    List<Staff> staffs = new ArrayList<>();
+    staffs = staffRepository.findAll();
      return  staffs.stream().map(staff -> modelMapper.map(staff, StaffDto.class)).collect(Collectors.toList());
 
   }
@@ -84,7 +87,7 @@ public class UserService{
       if (!currentStaff.getPassword().equals(staffToUpdate.getPassword())) {
         staffToUpdate.setPassword(currentStaff.getPassword());
       }
-      return !staffRepository.save(staffToUpdate).equals(null)
+      return staffRepository.save(staffToUpdate) != null
           ? modelMapper.map(staffRepository.save(staffToUpdate), StaffDto.class)
           : null;
     } else {
@@ -122,7 +125,7 @@ public class UserService{
       if (!currentStudent.getFiliere().equals(studentDb.getFiliere())) {
         studentDb.setFiliere(currentStudent.getFiliere());
       }
-      return !studentRepository.save(studentDb).equals(null)
+      return studentRepository.save(studentDb) != null
           ? modelMapper.map(studentRepository.save(studentDb), StudentDto.class)
           : null;
 
@@ -142,7 +145,8 @@ public class UserService{
   }
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
-    List<Student> students = studentRepository.findAllByFiliere(filiere);
+    List<Student> students = new ArrayList<>();
+    students = studentRepository.findAllByFiliere(filiere);
     return students.stream().map(student -> modelMapper.map(student,StudentDto.class)).collect(Collectors.toList());
   }
 
@@ -163,5 +167,7 @@ public class UserService{
     if (student != null) {
       studentRepository.delete(student);
     }
-  }
+
+}
+
 }

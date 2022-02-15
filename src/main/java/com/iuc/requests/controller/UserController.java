@@ -2,11 +2,8 @@ package com.iuc.requests.controller;
 
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
-import com.iuc.requests.repository.StudentRepository;
 import com.iuc.requests.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
@@ -20,20 +17,14 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-/**
-  public UserController(UserService userService){
-    this.userService =userService;
-  }
-*/
-
-  @GetMapping("/findStaffByMatricule")
+  @GetMapping(value = "/staff", params = "matricule")
   public StaffDto findStaffByMatricule(
-      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z0-9]")
-          String userRegistration) {
-    return userService.findStaffByMatricule(userRegistration);
+      @RequestParam(value = "matricule", required=false) @Pattern(regexp = "[a-zA-Z0-9]")
+          String matricule ) {
+      return userService.findStaffByMatricule(matricule);
   }
 
-  @GetMapping("/findStaffByEmail")
+  @GetMapping(value = "/staff", params = "email")
   public StaffDto findStaffByEmail(
           @RequestParam(value = "email") @Email
                   String email) {
@@ -45,65 +36,61 @@ public class UserController {
     return userService.findAllStaffs();
   }
 
-  @PostMapping(value = "/saveStaff")
+  @PostMapping(value = "/staff")
   public StaffDto createStaff(@RequestBody StaffDto staffDto) {
     return userService.createStaff(staffDto);
   }
 
-  @DeleteMapping("/deleteStaffByMatricule")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(value = "/staff", params = "matricule")
   public void deleteStaffByMatricule(
-      @RequestParam(value = "userRegistration") @Pattern(regexp = "[a-zA-Z0-9]")
-          String userRegistration) {
-    userService.deleteStaffByMatricule(userRegistration);
+      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]")
+          String matricule) {
+    userService.deleteStaffByMatricule(matricule);
   }
 
-  @DeleteMapping("/deleteStaffByEmail")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(value = "/staff", params = "email")
   public void deleteStaffByEmail(@RequestParam(value = "email") @Email String email) {
     userService.deleteStaffByEmail(email);
   }
 
-  @PutMapping("/updateStaff")
+  @PutMapping("/staff")
   public StaffDto updateStaff(@RequestBody StaffDto staffDto) {
     return userService.updateStaff(staffDto);
   }
 
-  @GetMapping("/findStudentByEmail")
+  @GetMapping(value = "/student", params = "email")
   public StudentDto findStudentByEmail(@RequestParam(value = "email") @Email String email) {
     return userService.findStudentByEmail(email);
   }
 
-  @GetMapping("/findStudentByMatricule")
+  @GetMapping(value = "/student", params = "matricule")
   public StudentDto findStudentByMatricule(
       @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
     return userService.findStudentByMatricule(matricule);
   }
 
-  @GetMapping("findStudentsByFiliere")
+  @GetMapping(value = "students", params = "filiere")
   public List<StudentDto> findAllStudentByFiliere(@RequestParam(value = "filiere") String filiere) {
     return userService.findAllStudentByFiliere(filiere);
   }
 
-  @PostMapping(value="/saveStudent")
+  @PostMapping(value="/student")
   public StudentDto createStudent(@RequestBody StudentDto studentDto) {
     return userService.createStudent(studentDto);
   }
 
-  @DeleteMapping("deleteStudentByMatricule")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(value = "student", params = "matricule")
   public void deleteStudentByMatricule(
       @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
     userService.deleteStudentByMatricule(matricule);
   }
 
-  @DeleteMapping("/deleteStudentByEmail")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping(value = "/student", params = "email")
   public void deleteStudentByEmail1(@RequestParam(value = "email") @Email String email) {
     userService.deleteStudentByEmail(email);
   }
 
-  @PutMapping("/updateStudent")
+  @PutMapping("/student")
   public StudentDto updateStudent(@RequestBody StudentDto studentDto) {
     return userService.updateStudent(studentDto);
   }
