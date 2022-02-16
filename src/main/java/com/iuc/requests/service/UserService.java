@@ -7,26 +7,33 @@ import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.Provider;
+import org.modelmapper.TypeMap;
+
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
-public class UserService{
+public class UserService {
 
-  @Autowired private StaffRepository staffRepository;
-  @Autowired private StudentRepository studentRepository;
-  @Autowired private ModelMapper modelMapper;
+   private final StaffRepository staffRepository;
+   private final StudentRepository studentRepository;
+   private final ModelMapper modelMapper;
+
+   public UserService(StaffRepository staffRepository, StudentRepository studentRepository, ModelMapper modelMapper){
+     this.staffRepository = staffRepository;
+     this.studentRepository=studentRepository;
+     this.modelMapper=modelMapper;
+   }
 
   public List<StaffDto> findAllStaffs() {
-    List<Staff> staffs = new ArrayList<>();
+    List<Staff> staffs;
     staffs = staffRepository.findAll();
-     return  staffs.stream().map(staff -> modelMapper.map(staff, StaffDto.class)).collect(Collectors.toList());
-
+    return staffs.stream()
+        .map(staff -> modelMapper.map(staff, StaffDto.class))
+        .collect(Collectors.toList());
   }
 
   public StaffDto createStaff(StaffDto staffDto) {
@@ -47,7 +54,7 @@ public class UserService{
 
   public void deleteStaffByEmail(String email) {
     Staff staff = staffRepository.findByEmail(email);
-    if (staff != null){
+    if (staff != null) {
       staffRepository.delete(staff);
     }
   }
@@ -61,74 +68,46 @@ public class UserService{
   }
 
   public StaffDto updateStaff(StaffDto staffDto) {
-    Staff currentStaff = modelMapper.map(staffDto, Staff.class);
-    Staff staffToUpdate = staffRepository.findByEmail(currentStaff.getEmail());
 
-    if (staffToUpdate != null) {
-      if (!currentStaff.getEmail().equals(staffToUpdate.getEmail())) {
-        staffToUpdate.setEmail(currentStaff.getEmail());
-      }
-      if (!currentStaff.getFiliere().equals(staffToUpdate.getFiliere())) {
-        staffToUpdate.setFiliere(currentStaff.getFiliere());
-      }
-      if (!currentStaff.getPosteOccupe().equals(staffToUpdate.getPosteOccupe())) {
-        staffToUpdate.setPosteOccupe(currentStaff.getPosteOccupe());
-      }
+    if (staffDto != null) {
+      // setup
+      Staff currentStaff = modelMapper.map(staffDto, Staff.class);
+      TypeMap<Staff, Staff> propertyMapper = modelMapper.createTypeMap(Staff.class, Staff.class);
 
-      if (!currentStaff.getMatricule().equals(staffToUpdate.getMatricule())) {
-        staffToUpdate.setMatricule(currentStaff.getMatricule());
-      }
-      if (!currentStaff.getNom().equals(staffToUpdate.getNom())) {
-        staffToUpdate.setNom(currentStaff.getNom());
-      }
-      if (!currentStaff.getPrenom().equals(staffToUpdate.getPrenom())) {
-        staffToUpdate.setPrenom(currentStaff.getPrenom());
-      }
-      if (!currentStaff.getPassword().equals(staffToUpdate.getPassword())) {
-        staffToUpdate.setPassword(currentStaff.getPassword());
-      }
-      return staffRepository.save(staffToUpdate) != null
-          ? modelMapper.map(staffRepository.save(staffToUpdate), StaffDto.class)
-          : null;
+      // a provider to fetch a Student instance form repository
+      Staff staff1 = this.staffRepository.findByEmail(staffDto.getEmail());
+      final Long id = staff1.getId();
+      Provider<Staff> staffDB = p -> staff1;
+      propertyMapper.setProvider(staffDB);
+
+      // when a state for update is given
+      Staff staffUpdated = modelMapper.map(currentStaff, Staff.class);
+      staffUpdated.setId(id);
+      return modelMapper.map(staffRepository.save(staffUpdated), StaffDto.class);
+
     } else {
       return null;
     }
   }
 
   public StudentDto updateStudent(StudentDto studentDto) {
-    Student currentStudent = modelMapper.map(studentDto, Student.class);
-    Student studentDb = studentRepository.findByEmail(currentStudent.getEmail());
 
-    if (studentDb != null) {
+    if (studentDto != null) {
+      // setup
+      Student currentStudent = modelMapper.map(studentDto, Student.class);
+      TypeMap<Student, Student> propertyMapper =
+          modelMapper.createTypeMap(Student.class, Student.class);
 
-      if (!currentStudent.getEmail().equals(studentDb.getEmail())) {
-        studentDb.setEmail(currentStudent.getEmail());
-      }
-      if (!currentStudent.getNiveau().equals(studentDb.getNiveau())) {
-        studentDb.setNiveau(currentStudent.getNiveau());
-      }
-      if (!currentStudent.getNom().equals(studentDb.getNom())) {
-        studentDb.setNom(currentStudent.getNom());
-      }
-      if (!currentStudent.getPrenom().equals(studentDb.getPrenom())) {
-        studentDb.setPrenom(currentStudent.getPrenom());
-      }
-      if (!currentStudent.getMatricule().equals(studentDb.getMatricule())) {
-        studentDb.setMatricule(currentStudent.getMatricule());
-      }
-      if (!currentStudent.getPassword().equals(studentDb.getPassword())) {
-        studentDb.setPassword(currentStudent.getPassword());
-      }
-      if (!currentStudent.getNiveau().equals(studentDb.getNiveau())) {
-        studentDb.setNiveau(currentStudent.getNiveau());
-      }
-      if (!currentStudent.getFiliere().equals(studentDb.getFiliere())) {
-        studentDb.setFiliere(currentStudent.getFiliere());
-      }
-      return studentRepository.save(studentDb) != null
-          ? modelMapper.map(studentRepository.save(studentDb), StudentDto.class)
-          : null;
+      // a provider to fetch a Student instance form repository
+      Student student1 = this.studentRepository.findByEmail(studentDto.getEmail());
+      final Long id = student1.getId();
+      Provider<Student> studentDB = p -> student1;
+      propertyMapper.setProvider(studentDB);
 
+      // when a state for update is given
+      Student studentUpdated = modelMapper.map(currentStudent, Student.class);
+      studentUpdated.setId(id);
+      return modelMapper.map(studentRepository.save(studentUpdated), StudentDto.class);
     } else {
       return null;
     }
@@ -145,9 +124,11 @@ public class UserService{
   }
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
-    List<Student> students = new ArrayList<>();
+    List<Student> students ;
     students = studentRepository.findAllByFiliere(filiere);
-    return students.stream().map(student -> modelMapper.map(student,StudentDto.class)).collect(Collectors.toList());
+    return students.stream()
+        .map(student -> modelMapper.map(student, StudentDto.class))
+        .collect(Collectors.toList());
   }
 
   public StudentDto createStudent(StudentDto studentDto) {
@@ -167,7 +148,5 @@ public class UserService{
     if (student != null) {
       studentRepository.delete(student);
     }
-
-}
-
+  }
 }

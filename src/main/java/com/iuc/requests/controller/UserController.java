@@ -3,7 +3,6 @@ package com.iuc.requests.controller;
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
@@ -14,20 +13,20 @@ import java.util.List;
 @RequestMapping("/iuc/users")
 public class UserController {
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
+
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping(value = "/staff", params = "matricule")
   public StaffDto findStaffByMatricule(
-      @RequestParam(value = "matricule", required=false) @Pattern(regexp = "[a-zA-Z0-9]")
-          String matricule ) {
-      return userService.findStaffByMatricule(matricule);
+      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
+    return userService.findStaffByMatricule(matricule);
   }
 
   @GetMapping(value = "/staff", params = "email")
-  public StaffDto findStaffByEmail(
-          @RequestParam(value = "email") @Email
-                  String email) {
+  public StaffDto findStaffByEmail(@RequestParam(value = "email") @Email String email) {
     return userService.findStaffByEmail(email);
   }
 
@@ -43,8 +42,7 @@ public class UserController {
 
   @DeleteMapping(value = "/staff", params = "matricule")
   public void deleteStaffByMatricule(
-      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]")
-          String matricule) {
+      @RequestParam(value = "matricule") @Pattern(regexp = "[a-zA-Z0-9]") String matricule) {
     userService.deleteStaffByMatricule(matricule);
   }
 
@@ -74,7 +72,7 @@ public class UserController {
     return userService.findAllStudentByFiliere(filiere);
   }
 
-  @PostMapping(value="/student")
+  @PostMapping(value = "/student")
   public StudentDto createStudent(@RequestBody StudentDto studentDto) {
     return userService.createStudent(studentDto);
   }
@@ -90,8 +88,8 @@ public class UserController {
     userService.deleteStudentByEmail(email);
   }
 
-  @PutMapping("/student")
+   @PutMapping("/student")
   public StudentDto updateStudent(@RequestBody StudentDto studentDto) {
-    return userService.updateStudent(studentDto);
+  return userService.updateStudent(studentDto);
   }
 }

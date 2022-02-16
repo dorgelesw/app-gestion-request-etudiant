@@ -111,13 +111,7 @@ public class UserServiceIntegrationTest {
 
     //Assert
     assertThat(studentDtoCreated).isNotNull();
-    assertThat(studentDtoCreated.getNiveau()).isEqualTo(studentDto.getNiveau());
-    assertThat(studentDtoCreated.getEmail()).isEqualTo(studentDto.getEmail());
-    assertThat(studentDtoCreated.getFiliere()).isEqualTo(studentDto.getFiliere());
-    assertThat(studentDtoCreated.getMatricule()).isEqualTo(studentDto.getMatricule());
-    assertThat(studentDtoCreated.getNom()).isEqualTo(studentDto.getNom());
-    assertThat(studentDtoCreated.getPrenom()).isEqualTo(studentDto.getPrenom());
-    assertThat(studentDtoCreated.getPassword()).isEqualTo(studentDto.getPassword());
+    assertThat(studentDtoCreated).isEqualTo(studentDto);
   }
 
   @Test
@@ -140,13 +134,7 @@ public class UserServiceIntegrationTest {
     //ASSERT
     assertThat(studentDtoCreated).isNotNull();
     assertThat(actualStudentDto).isNotNull();
-    assertThat(actualStudentDto.getNiveau()).isEqualTo(studentDtoCreated.getNiveau());
-    assertThat(actualStudentDto.getEmail()).isEqualTo(studentDtoCreated.getEmail());
-    assertThat(actualStudentDto.getFiliere()).isEqualTo(studentDtoCreated.getFiliere());
-    assertThat(actualStudentDto.getMatricule()).isEqualTo(studentDtoCreated.getMatricule());
-    assertThat(actualStudentDto.getNom()).isEqualTo(studentDtoCreated.getNom());
-    assertThat(actualStudentDto.getPrenom()).isEqualTo(studentDtoCreated.getPrenom());
-    assertThat(actualStudentDto.getPassword()).isEqualTo(studentDtoCreated.getPassword());
+    assertThat(actualStudentDto).isEqualTo(studentDtoCreated);
   }
 
   @Test
@@ -168,13 +156,8 @@ public class UserServiceIntegrationTest {
 
     //ASSERT
     assertThat(studentDtoCreated).isNotNull();
-    assertThat(actualStudentDto.getNiveau()).isEqualTo(studentDtoCreated.getNiveau());
-    assertThat(actualStudentDto.getEmail()).isEqualTo(studentDtoCreated.getEmail());
-    assertThat(actualStudentDto.getFiliere()).isEqualTo(studentDtoCreated.getFiliere());
-    assertThat(actualStudentDto.getMatricule()).isEqualTo(studentDtoCreated.getMatricule());
-    assertThat(actualStudentDto.getNom()).isEqualTo(studentDtoCreated.getNom());
-    assertThat(actualStudentDto.getPrenom()).isEqualTo(studentDtoCreated.getPrenom());
-    assertThat(actualStudentDto.getPassword()).isEqualTo(studentDtoCreated.getPassword());
+    assertThat(actualStudentDto).isNotNull();
+    assertThat(actualStudentDto).isEqualTo(studentDtoCreated);
   }
 
   @Test
@@ -240,13 +223,7 @@ public class UserServiceIntegrationTest {
 
     //Assert
     assertThat(createdStaffDto).isNotNull();
-    assertThat(createdStaffDto.getEmail()).isEqualTo(staffDto.getEmail());
-    assertThat(createdStaffDto.getFiliere()).isEqualTo(staffDto.getFiliere());
-    assertThat(createdStaffDto.getMatricule()).isEqualTo(staffDto.getMatricule());
-    assertThat(createdStaffDto.getNom()).isEqualTo(staffDto.getNom());
-    assertThat(createdStaffDto.getPrenom()).isEqualTo(staffDto.getPrenom());
-    assertThat(createdStaffDto.getPosteOccupe()).isEqualTo(staffDto.getPosteOccupe());
-    assertThat(createdStaffDto.getPassword()).isEqualTo(staffDto.getPassword());
+    assertThat(createdStaffDto).isEqualTo(staffDto);
   }
 
   @Test
@@ -268,13 +245,8 @@ public class UserServiceIntegrationTest {
 
     //Assert
     assertThat(createdStaffDto).isNotNull();
-    assertThat(actualStaffDto.getEmail()).isEqualTo(createdStaffDto.getEmail());
-    assertThat(actualStaffDto.getFiliere()).isEqualTo(createdStaffDto.getFiliere());
-    assertThat(actualStaffDto.getMatricule()).isEqualTo(createdStaffDto.getMatricule());
-    assertThat(actualStaffDto.getNom()).isEqualTo(createdStaffDto.getNom());
-    assertThat(actualStaffDto.getPrenom()).isEqualTo(createdStaffDto.getPrenom());
-    assertThat(actualStaffDto.getPosteOccupe()).isEqualTo(createdStaffDto.getPosteOccupe());
-    assertThat(actualStaffDto.getPassword()).isEqualTo(createdStaffDto.getPassword());
+    assertThat(actualStaffDto).isNotNull();
+    assertThat(actualStaffDto).isEqualTo(createdStaffDto);
   }
 
   @Test
@@ -296,13 +268,8 @@ public class UserServiceIntegrationTest {
 
     //Assert
     assertThat(createdStaffDto).isNotNull();
-    assertThat(actualStaffDto.getEmail()).isEqualTo(createdStaffDto.getEmail());
-    assertThat(actualStaffDto.getFiliere()).isEqualTo(createdStaffDto.getFiliere());
-    assertThat(actualStaffDto.getMatricule()).isEqualTo(createdStaffDto.getMatricule());
-    assertThat(actualStaffDto.getNom()).isEqualTo(createdStaffDto.getNom());
-    assertThat(actualStaffDto.getPrenom()).isEqualTo(createdStaffDto.getPrenom());
-    assertThat(actualStaffDto.getPosteOccupe()).isEqualTo(createdStaffDto.getPosteOccupe());
-    assertThat(actualStaffDto.getPassword()).isEqualTo(createdStaffDto.getPassword());
+    assertThat(actualStaffDto).isNotNull();
+    assertThat(actualStaffDto).isEqualTo(createdStaffDto);
   }
 
   @Test
@@ -413,6 +380,7 @@ public class UserServiceIntegrationTest {
     StudentDto updatedStudentDto = userService.updateStudent(createdStudentDto);
 
     //Assert
+    assertThat(updatedStudentDto).isNotEqualTo(studentDto);
     assertThat(updatedStudentDto.getNiveau()).isNotEqualTo(studentDto.getNiveau());
     assertThat(updatedStudentDto.getEmail()).isEqualTo(studentDto.getEmail());
     assertThat(updatedStudentDto.getFiliere()).isNotEqualTo(studentDto.getFiliere());
@@ -446,6 +414,7 @@ public class UserServiceIntegrationTest {
     StaffDto updatedStaffDto = userService.updateStaff(persistedStaffDto);
 
     //Assert
+    assertThat(updatedStaffDto).isNotEqualTo(staffDto);
     assertThat(updatedStaffDto.getEmail()).isEqualTo(staffDto.getEmail());
     assertThat(updatedStaffDto.getFiliere()).isNotEqualTo(staffDto.getFiliere());
     assertThat(updatedStaffDto.getMatricule()).isEqualTo(staffDto.getMatricule());
