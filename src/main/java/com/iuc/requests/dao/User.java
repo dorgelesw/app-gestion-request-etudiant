@@ -17,7 +17,6 @@ public class User {
   private Long id;
 
   @Column(length = 13, unique = true, nullable = false)
-  //@Pattern(regexp = "[a-zA-Z0-9]")
   private String matricule;
 
   @Column(length = 50, nullable = false)
@@ -33,7 +32,6 @@ public class User {
   private String email;
 
   @Column(length = 15,nullable = false)
-  //@Pattern(regexp = "[a-zA-Z0-9]")
   private String filiere;
 
 }

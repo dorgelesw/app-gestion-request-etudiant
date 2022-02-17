@@ -47,7 +47,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2020");
         staffDto.setEmail("staff-test-3@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
 
         //ACT
         Mockito.when(userService.findStaffByMatricule(staffDto.getMatricule())).thenReturn(staffDto);
@@ -61,8 +60,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(staffDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(staffDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.posteOccupe",Matchers.is(staffDto.getPosteOccupe())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())));
 
         Mockito.verify(userService,Mockito.times(1)).findStaffByMatricule(staffDto.getMatricule());
 
@@ -78,7 +76,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2020");
         staffDto.setEmail("staff-test-3@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
 
         //ACT
         Mockito.when(userService.findStaffByEmail(staffDto.getEmail())).thenReturn(staffDto);
@@ -92,8 +89,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(staffDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(staffDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.posteOccupe",Matchers.is(staffDto.getPosteOccupe())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())));
 
         Mockito.verify(userService, Mockito.times(1)).findStaffByEmail(staffDto.getEmail());
 
@@ -110,7 +106,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2020");
         staffDto.setEmail("staff-test-3@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
 
         //ACT
         Mockito.doNothing().when(userService).deleteStaffByEmail(staffDto.getEmail());
@@ -135,7 +130,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2020");
         staffDto.setEmail("staff-test-3@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
 
         //ACT
         Mockito.doNothing().when(userService).deleteStaffByMatricule(staffDto.getMatricule());
@@ -160,7 +154,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC2021");
         studentDto.setEmail("student-test-3@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
 
         //ACT
         Mockito.doNothing().when(userService).deleteStudentByMatricule(studentDto.getMatricule());
@@ -185,7 +178,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC2021");
         studentDto.setEmail("student-test-3@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
 
         //ACT
         Mockito.doNothing().when(userService).deleteStudentByEmail(studentDto.getEmail());
@@ -209,7 +201,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC2021");
         studentDto.setEmail("student-test-3@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
 
         //ACT
         Mockito.when(userService.findStudentByEmail(studentDto.getEmail())).thenReturn(studentDto);
@@ -223,9 +214,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(studentDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(studentDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.niveau",Matchers.is(studentDto.getNiveau())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())));
         Mockito.verify(userService,Mockito.times(1)).findStudentByEmail(studentDto.getEmail());
 
     }
@@ -240,7 +229,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC2021");
         studentDto.setEmail("student-test-3@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
 
         //ACT
         Mockito.when(userService.findStudentByMatricule(studentDto.getMatricule())).thenReturn(studentDto);
@@ -254,8 +242,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(studentDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(studentDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.niveau",Matchers.is(studentDto.getNiveau())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())));
 
         Mockito.verify(userService,Mockito.times(1)).findStudentByMatricule(studentDto.getMatricule());
 
@@ -271,7 +258,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2020");
         staffDto.setEmail("staff-test-3@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
 
         StaffDto staffDto1 = new StaffDto();
         staffDto1.setNom("staff-nom-test-4");
@@ -280,7 +266,6 @@ public class UserControllerTest {
         staffDto1.setMatricule("2CIUC2024");
         staffDto1.setEmail("staff-test-4@iuc.com");
         staffDto1.setFiliere("MATHEMATIQUE");
-        staffDto1.setPassword("123456");
 
         List<StaffDto>  staffDtoList = new ArrayList<>();
         staffDtoList.add(staffDto);
@@ -299,14 +284,12 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email",Matchers.is(staffDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].posteOccupe",Matchers.is(staffDto.getPosteOccupe())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].filiere",Matchers.is(staffDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].password",Matchers.is(staffDto.getPassword())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].nom",Matchers.is(staffDto1.getNom())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].prenom",Matchers.is(staffDto1.getPrenom())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].matricule",Matchers.is(staffDto1.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email",Matchers.is(staffDto1.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].posteOccupe",Matchers.is(staffDto1.getPosteOccupe())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(staffDto1.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].password",Matchers.is(staffDto1.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(staffDto1.getFiliere())));
 
         Mockito.verify(userService, Mockito.times(1)).findAllStaffs();
     }
@@ -321,7 +304,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC2021");
         studentDto.setEmail("student-test-3@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
 
         StudentDto studentDto1 = new StudentDto();
         studentDto1.setNom("student-nom-test-4");
@@ -330,7 +312,6 @@ public class UserControllerTest {
         studentDto1.setMatricule("1EIUC2024");
         studentDto1.setEmail("student-test-4@iuc.com");
         studentDto1.setFiliere("MATHEMATIQUE");
-        studentDto1.setPassword("12345");
 
         List<StudentDto>  studentDtoList = new ArrayList<>();
         studentDtoList.add(studentDto);
@@ -349,14 +330,12 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email",Matchers.is(studentDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].niveau",Matchers.is(studentDto.getNiveau())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].filiere",Matchers.is(studentDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].password",Matchers.is(studentDto.getPassword())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].nom",Matchers.is(studentDto1.getNom())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].prenom",Matchers.is(studentDto1.getPrenom())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].matricule",Matchers.is(studentDto1.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email",Matchers.is(studentDto1.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].niveau",Matchers.is(studentDto1.getNiveau())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(studentDto1.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].password",Matchers.is(studentDto1.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].filiere",Matchers.is(studentDto1.getFiliere())));
 
         Mockito.verify(userService,Mockito.times(1)).findAllStudentByFiliere("MATHEMATIQUE");
 
@@ -373,7 +352,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC24021");
         studentDto.setEmail("student-test-93@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonStudentDto = objectMapper.writeValueAsString(studentDto);
 
@@ -390,8 +368,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(studentDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(studentDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.niveau",Matchers.is(studentDto.getNiveau())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())));
 
         Mockito.verify(userService, Mockito.times(1)).createStudent(studentDto);
     }
@@ -407,7 +384,6 @@ public class UserControllerTest {
         staffDto.setMatricule("2CIUC2027");
         staffDto.setEmail("staff-test-34@iuc.com");
         staffDto.setFiliere("MATHEMATIQUE");
-        staffDto.setPassword("12345");
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonStaffDto = objectMapper.writeValueAsString(staffDto);
 
@@ -423,8 +399,7 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(staffDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(staffDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.posteOccupe",Matchers.is(staffDto.getPosteOccupe())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())));
 
         Mockito.verify(userService, Mockito.times(1)).createStaff(staffDto);
     }
@@ -439,10 +414,8 @@ public class UserControllerTest {
     staffDto.setMatricule("2CIUC2027");
     staffDto.setEmail("staff-test-34@iuc.com");
     staffDto.setFiliere("MATHEMATIQUE");
-    staffDto.setPassword("12345");
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonStaffDto = objectMapper.writeValueAsString(staffDto);
-
 
     //ACT
     BDDMockito.given(userService.updateStaff(staffDto)).willReturn(staffDto);
@@ -455,8 +428,8 @@ public class UserControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(staffDto.getMatricule())))
             .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(staffDto.getEmail())))
             .andExpect(MockMvcResultMatchers.jsonPath("$.posteOccupe",Matchers.is(staffDto.getPosteOccupe())))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(staffDto.getPassword())));
+            .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(staffDto.getFiliere())));
+
 
     Mockito.verify(userService,Mockito.times(1)).updateStaff(staffDto);
   }
@@ -471,7 +444,6 @@ public class UserControllerTest {
         studentDto.setMatricule("1EIUC24021");
         studentDto.setEmail("student-test-93@iuc.com");
         studentDto.setFiliere("MATHEMATIQUE");
-        studentDto.setPassword("1234");
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonStudentDto = objectMapper.writeValueAsString(studentDto);
 
@@ -488,16 +460,9 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricule",Matchers.is(studentDto.getMatricule())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email",Matchers.is(studentDto.getEmail())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.niveau",Matchers.is(studentDto.getNiveau())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password",Matchers.is(studentDto.getPassword())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.filiere",Matchers.is(studentDto.getFiliere())));
 
         Mockito.verify(userService, Mockito.times(1)).updateStudent(studentDto);
     }
-
-
-
-
-
-
 
 }

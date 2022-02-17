@@ -16,6 +16,4 @@ public class StaffDto {
   private String posteOccupe;
 
   private String filiere;
-
-  private String password;
 }

@@ -10,8 +10,6 @@ public class StudentDto {
 
   private String prenom;
 
-  private String password;
-
   private String email;
 
   private String filiere;

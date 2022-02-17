@@ -12,11 +12,15 @@ spring:
     username: root  #johndoe
     password: Certificationjava@2022  #john@doe
   jpa:
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans : true
     database-platform: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
     open-in-view: false # since we don't query db in the view layer, no need to cache query results in the while life cycle of the request. Ref.: https://www.changchao.me/?p=782
     hibernate:
       ddl-auto: update
+
   servlet:
     multipart:
       max-file-size: 512MB

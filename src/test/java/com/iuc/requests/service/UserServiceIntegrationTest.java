@@ -64,9 +64,7 @@ public class UserServiceIntegrationTest {
     studentDto1.setNiveau("1");
     studentDto1.setMatricule("1DIUC2021");
     studentDto1.setEmail("vimaltest1@gmail.com");
-    studentDto1.setPassword("1234");
     studentDto1.setFiliere("INFORMATIQUE");
-
 
     StudentDto studentDto2 = new StudentDto();
     studentDto2.setNom("student-nom-test-2");
@@ -74,7 +72,6 @@ public class UserServiceIntegrationTest {
     studentDto2.setNiveau("1");
     studentDto2.setMatricule("1CIUC2021");
     studentDto2.setEmail("Student-test-2@iuc.com");
-    studentDto2.setPassword("1234");
     studentDto2.setFiliere("INFORMATIQUE");
 
     userService.createStudent(studentDto1);
@@ -85,7 +82,7 @@ public class UserServiceIntegrationTest {
     expectedStudentDtoList.add(studentDto2);
 
     //Act
-    List<StudentDto> actualStudentDtoList = new ArrayList<>();
+    List<StudentDto> actualStudentDtoList;
     actualStudentDtoList = userService.findAllStudentByFiliere("INFORMATIQUE");
 
     //ASSERT
@@ -103,7 +100,6 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUC20214");
     studentDto.setEmail("vimaltest14@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -124,12 +120,11 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUC52021");
     studentDto.setEmail("vimaltest13@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
     StudentDto studentDtoCreated =userService.createStudent(studentDto);
 
     //ACT
-    StudentDto actualStudentDto = userService.findStudentByEmail("vimaltest13@gmail.com");
+    StudentDto actualStudentDto = userService.findStudentByEmail(studentDtoCreated.getEmail());
 
     //ASSERT
     assertThat(studentDtoCreated).isNotNull();
@@ -147,7 +142,6 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUC52021");
     studentDto.setEmail("vimaltest16@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
 
     //ACT
@@ -169,7 +163,6 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUCe2021");
     studentDto.setEmail("vimaltest1e@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
 
 
@@ -193,7 +186,6 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUC2021");
     studentDto.setEmail("vimaltest1@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
 
     //ACT
@@ -215,7 +207,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("123489");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -236,7 +227,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("1DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("1234");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -259,7 +249,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("1DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("1234");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -282,7 +271,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("1DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("1234");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -305,7 +293,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("1DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("1234");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -329,7 +316,6 @@ public class UserServiceIntegrationTest {
     staffDto1.setPosteOccupe("staff-director-test-1");
     staffDto1.setMatricule("1DIUC2020");
     staffDto1.setEmail("staff-test-1@iuc.com");
-    staffDto1.setPassword("1234");
     staffDto1.setFiliere("INFORMATIQUE");
 
     StaffDto staffDto2 = new StaffDto();
@@ -338,7 +324,6 @@ public class UserServiceIntegrationTest {
     staffDto2.setPosteOccupe("staff-chef-dep-test-2");
     staffDto2.setMatricule("1CIUC2020");
     staffDto2.setEmail("staff-test-2@iuc.com");
-    staffDto2.setPassword("1234");
     staffDto2.setFiliere("INFORMATIQUE");
 
     userService.createStaff(staffDto1);
@@ -348,7 +333,7 @@ public class UserServiceIntegrationTest {
     expectedStaffDtoList.add(staffDto2);
 
     //Act
-    List<StaffDto> actualStaffDtoList = new ArrayList<>();
+    List<StaffDto> actualStaffDtoList;
     actualStaffDtoList = userService.findAllStaffs();
 
     //ASSERT
@@ -367,7 +352,6 @@ public class UserServiceIntegrationTest {
     studentDto.setNiveau("1");
     studentDto.setMatricule("1DIUC2021");
     studentDto.setEmail("vimaltest1@gmail.com");
-    studentDto.setPassword("1234");
     studentDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -376,7 +360,6 @@ public class UserServiceIntegrationTest {
     createdStudentDto.setFiliere("INFORMATIQUE-u");
     createdStudentDto.setNiveau("2");
     createdStudentDto.setPrenom("student-prenom-test-1-upadte");
-    createdStudentDto.setPassword("1234update");
     StudentDto updatedStudentDto = userService.updateStudent(createdStudentDto);
 
     //Assert
@@ -387,7 +370,6 @@ public class UserServiceIntegrationTest {
     assertThat(updatedStudentDto.getMatricule()).isEqualTo(studentDto.getMatricule());
     assertThat(updatedStudentDto.getNom()).isNotEqualTo(studentDto.getNom());
     assertThat(updatedStudentDto.getPrenom()).isNotEqualTo(studentDto.getPrenom());
-    assertThat(updatedStudentDto.getPassword()).isNotEqualTo(studentDto.getPassword());
 
   }
 
@@ -401,7 +383,6 @@ public class UserServiceIntegrationTest {
     staffDto.setPosteOccupe("staff-director-test-1");
     staffDto.setMatricule("1DIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
-    staffDto.setPassword("1234");
     staffDto.setFiliere("INFORMATIQUE");
 
     //Act
@@ -409,7 +390,6 @@ public class UserServiceIntegrationTest {
     persistedStaffDto.setNom("staff-nom-test-1-update");
     persistedStaffDto.setFiliere("INFORMATIQUE-u");
     persistedStaffDto.setPrenom("staff-prenom-test-1-upadte");
-    persistedStaffDto.setPassword("1234update");
     persistedStaffDto.setPosteOccupe("staff-director-test-1-up");
     StaffDto updatedStaffDto = userService.updateStaff(persistedStaffDto);
 
@@ -420,7 +400,6 @@ public class UserServiceIntegrationTest {
     assertThat(updatedStaffDto.getMatricule()).isEqualTo(staffDto.getMatricule());
     assertThat(updatedStaffDto.getNom()).isNotEqualTo(staffDto.getNom());
     assertThat(updatedStaffDto.getPrenom()).isNotEqualTo(staffDto.getPrenom());
-    assertThat(updatedStaffDto.getPassword()).isNotEqualTo(staffDto.getPassword());
     assertThat(updatedStaffDto.getPosteOccupe()).isNotEqualTo(staffDto.getPosteOccupe());
 
   }

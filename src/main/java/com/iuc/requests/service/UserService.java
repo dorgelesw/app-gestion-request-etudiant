@@ -7,26 +7,29 @@ import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.Provider;
-import org.modelmapper.TypeMap;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@EnableTransactionManagement
 public class UserService {
 
-   private final StaffRepository staffRepository;
-   private final StudentRepository studentRepository;
-   private final ModelMapper modelMapper;
+  private final StaffRepository staffRepository;
+  private final StudentRepository studentRepository;
+  private final ModelMapper modelMapper;
 
-   public UserService(StaffRepository staffRepository, StudentRepository studentRepository, ModelMapper modelMapper){
-     this.staffRepository = staffRepository;
-     this.studentRepository=studentRepository;
-     this.modelMapper=modelMapper;
-   }
+  public UserService(
+      StaffRepository staffRepository,
+      StudentRepository studentRepository,
+      ModelMapper modelMapper) {
+    this.staffRepository = staffRepository;
+    this.studentRepository = studentRepository;
+    this.modelMapper = modelMapper;
+  }
 
   public List<StaffDto> findAllStaffs() {
     List<Staff> staffs;
@@ -70,21 +73,15 @@ public class UserService {
   public StaffDto updateStaff(StaffDto staffDto) {
 
     if (staffDto != null) {
-      // setup
+
       Staff currentStaff = modelMapper.map(staffDto, Staff.class);
-      TypeMap<Staff, Staff> propertyMapper = modelMapper.createTypeMap(Staff.class, Staff.class);
-
-      // a provider to fetch a Student instance form repository
-      Staff staff1 = this.staffRepository.findByEmail(staffDto.getEmail());
-      final Long id = staff1.getId();
-      Provider<Staff> staffDB = p -> staff1;
-      propertyMapper.setProvider(staffDB);
-
-      // when a state for update is given
-      Staff staffUpdated = modelMapper.map(currentStaff, Staff.class);
-      staffUpdated.setId(id);
-      return modelMapper.map(staffRepository.save(staffUpdated), StaffDto.class);
-
+      Staff dbStaff = staffRepository.findByEmail(staffDto.getEmail());
+      modelMapper
+          .getConfiguration()
+          .setSkipNullEnabled(true); // source fields who is null will be skiped
+      modelMapper.map(currentStaff, dbStaff);
+      Staff staffUpdated = staffRepository.save(dbStaff);
+      return staffUpdated != null ? modelMapper.map(staffUpdated, StaffDto.class) : null;
     } else {
       return null;
     }
@@ -95,19 +92,13 @@ public class UserService {
     if (studentDto != null) {
       // setup
       Student currentStudent = modelMapper.map(studentDto, Student.class);
-      TypeMap<Student, Student> propertyMapper =
-          modelMapper.createTypeMap(Student.class, Student.class);
-
-      // a provider to fetch a Student instance form repository
-      Student student1 = this.studentRepository.findByEmail(studentDto.getEmail());
-      final Long id = student1.getId();
-      Provider<Student> studentDB = p -> student1;
-      propertyMapper.setProvider(studentDB);
-
-      // when a state for update is given
-      Student studentUpdated = modelMapper.map(currentStudent, Student.class);
-      studentUpdated.setId(id);
-      return modelMapper.map(studentRepository.save(studentUpdated), StudentDto.class);
+      Student dbStudent = studentRepository.findByEmail(studentDto.getEmail());
+      modelMapper
+          .getConfiguration()
+          .setSkipNullEnabled(true); // source fields who is null will be skiped
+      modelMapper.map(currentStudent, dbStudent);
+      Student studentUpdated = studentRepository.save(dbStudent);
+      return studentUpdated != null ? modelMapper.map(studentUpdated, StudentDto.class) : null;
     } else {
       return null;
     }
@@ -124,7 +115,7 @@ public class UserService {
   }
 
   public List<StudentDto> findAllStudentByFiliere(String filiere) {
-    List<Student> students ;
+    List<Student> students;
     students = studentRepository.findAllByFiliere(filiere);
     return students.stream()
         .map(student -> modelMapper.map(student, StudentDto.class))
