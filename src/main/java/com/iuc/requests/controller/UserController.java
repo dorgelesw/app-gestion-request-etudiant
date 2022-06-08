@@ -19,7 +19,7 @@ public class UserController {
     return null;
   }
 
-  @GetMapping("/staff")
+  @GetMapping("/stafff")
   public StaffDto findStaffByMatricule(
       @RequestParam(value = "userRegistration") String userRegistration) {
     return null;
