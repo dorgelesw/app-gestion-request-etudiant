@@ -16,13 +16,13 @@ public class UserController {
 
   @GetMapping("/staff")
   public StaffDto findStaffByEmail(@RequestParam(value = "email") @Email String email) {
-    return null;
+    return userService.findStaffByEmail(email);
   }
 
   @GetMapping("/stafff")
   public StaffDto findStaffByMatricule(
-      @RequestParam(value = "userRegistration") String userRegistration) {
-    return null;
+      @RequestParam(value = "matricule") String matricule) {
+    return userService.findStaffByMatricul(matricule);
   }
 
   @GetMapping("/staffs")

@@ -22,10 +22,7 @@ public class UserService {
 
     Iterable<Staff> staffs = staffRepository.findAll();
     List<StaffDto> staffsDto = new ArrayList<>();
-    staffs.forEach(
-        staff -> {
-          staffsDto.add(modelMapper.map(staff, StaffDto.class));
-        });
+    staffs.forEach(staff -> staffsDto.add(modelMapper.map(staff, StaffDto.class)));
 
     return staffsDto;
   }
@@ -33,5 +30,15 @@ public class UserService {
   public StaffDto save(StaffDto staffDto) {
     Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
     return modelMapper.map(staff, StaffDto.class);
+  }
+
+  public StaffDto findStaffByEmail(String email) {
+    Staff byEmail = staffRepository.findByEmail(email);
+    return modelMapper.map(byEmail, StaffDto.class);
+  }
+
+  public StaffDto findStaffByMatricul(String matricule) {
+    Staff byEmail = staffRepository.findByMatricule(matricule);
+    return modelMapper.map(byEmail, StaffDto.class);
   }
 }
