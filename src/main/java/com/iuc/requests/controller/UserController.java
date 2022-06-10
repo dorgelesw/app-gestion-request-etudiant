@@ -2,7 +2,11 @@ package com.iuc.requests.controller;
 
 import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
+import com.iuc.requests.exception.MyErrorMessage;
 import com.iuc.requests.service.UserService;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Email;
@@ -73,8 +77,14 @@ public class UserController {
   }
 
   @PostMapping(value = "/student")
-  public StudentDto createStudent(@RequestBody StudentDto studentDto) {
-    return userService.createStudent(studentDto);
+  public ResponseEntity<?> createStudent(@RequestBody StudentDto studentDto) {
+    try {
+      return new ResponseEntity<>(userService.createStudentV2(studentDto), HttpStatus.CREATED);
+    } catch (IllegalArgumentException e) {
+      return new ResponseEntity<>(new MyErrorMessage(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+    } catch (NullPointerException e) {
+      return new ResponseEntity<>(new MyErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+    }
   }
 
   @DeleteMapping(value = "student", params = "matricule")
@@ -88,8 +98,8 @@ public class UserController {
     userService.deleteStudentByEmail(email);
   }
 
-   @PutMapping("/student")
+  @PutMapping("/student")
   public StudentDto updateStudent(@RequestBody StudentDto studentDto) {
-  return userService.updateStudent(studentDto);
+    return userService.updateStudent(studentDto);
   }
 }

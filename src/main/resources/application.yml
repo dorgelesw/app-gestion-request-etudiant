@@ -10,7 +10,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/iuc_request_db?allowPublicKeyRetrieval=true&useSSL=false  #j'ai rajoute allowPublicKeyRetrieval=true&
     username: root  #johndoe
-    password: Certificationjava@2022  #john@doe
+    password: 699952002  #john@doe
   jpa:
     properties:
       hibernate:

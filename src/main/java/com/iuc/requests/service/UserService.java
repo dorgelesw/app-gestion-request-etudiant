@@ -6,15 +6,19 @@ import com.iuc.requests.dto.StaffDto;
 import com.iuc.requests.dto.StudentDto;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @EnableTransactionManagement
 public class UserService {
 
@@ -41,7 +45,7 @@ public class UserService {
 
   public StaffDto createStaff(StaffDto staffDto) {
     Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
-    return staff != null ? modelMapper.map(staff, StaffDto.class) : null;
+    return modelMapper.map(staff, StaffDto.class);
   }
 
   public StaffDto findStaffByEmail(String email) {
@@ -81,7 +85,7 @@ public class UserService {
           .setSkipNullEnabled(true); // source fields who is null will be skiped
       modelMapper.map(currentStaff, dbStaff);
       Staff staffUpdated = staffRepository.save(dbStaff);
-      return staffUpdated != null ? modelMapper.map(staffUpdated, StaffDto.class) : null;
+      return modelMapper.map(staffUpdated, StaffDto.class);
     } else {
       return null;
     }
@@ -98,7 +102,7 @@ public class UserService {
           .setSkipNullEnabled(true); // source fields who is null will be skiped
       modelMapper.map(currentStudent, dbStudent);
       Student studentUpdated = studentRepository.save(dbStudent);
-      return studentUpdated != null ? modelMapper.map(studentUpdated, StudentDto.class) : null;
+      return modelMapper.map(studentUpdated, StudentDto.class);
     } else {
       return null;
     }
@@ -124,7 +128,25 @@ public class UserService {
 
   public StudentDto createStudent(StudentDto studentDto) {
     Student student = studentRepository.save(modelMapper.map(studentDto, Student.class));
-    return student != null ? modelMapper.map(student, StudentDto.class) : null;
+    return modelMapper.map(student, StudentDto.class);
+  }
+
+  public StudentDto createStudentV2(StudentDto studentDto) {
+    Student student;
+    if (Objects.nonNull(studentDto)) {
+      student = studentRepository.findByEmail(studentDto.getEmail());
+      if (Objects.nonNull(student)) {
+        log.info("The email {} already used", studentDto.getEmail());
+        throw new IllegalArgumentException(
+            String.format("The value %s is already in the database.", studentDto.getEmail()));
+      } else {
+        String matricule = generateStudentMatricule();
+        studentDto.setMatricule(matricule);
+        student = studentRepository.save(modelMapper.map(studentDto, Student.class));
+        return modelMapper.map(student, StudentDto.class);
+      }
+    }
+    throw new NullPointerException("Student Object can't be null");
   }
 
   public void deleteStudentByMatricule(String matricule) {
@@ -139,5 +161,14 @@ public class UserService {
     if (student != null) {
       studentRepository.delete(student);
     }
+  }
+
+  private String generateStudentMatricule() {
+
+    Long currentID = 0L;
+    Optional<Student> lastInsertedStudent = studentRepository.findTopByOrderByIdDesc();
+    if (lastInsertedStudent.isPresent()) currentID = lastInsertedStudent.get().getId();
+
+    return String.format("ST%05d", currentID + 1);
   }
 }
