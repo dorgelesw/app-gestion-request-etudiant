@@ -29,11 +29,11 @@ public class UserServiceIntegrationTest {
   }
 
   @Test
-  public void giving_a_staff_he_should_be_exist_after_create() {
+  public void giving_a_staff_should_be_exist_after_create() {
     StaffDto staffDto = new StaffDto();
     staffDto.setNom("staff-nom-test-1");
     staffDto.setPrenom("staff-prenom-test-1");
-    staffDto.setPosteOccupe("staff-chef-dep-test-1");
+    staffDto.setPoste("staff-chef-dep-test-1");
     staffDto.setMatricule("2CIUC2020");
     staffDto.setEmail("staff-test-1@iuc.com");
     staffDto.setFiliere("MATHEMATIQUE");
