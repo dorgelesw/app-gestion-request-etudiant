@@ -13,7 +13,7 @@ public class StaffDto {
 
   private String email;
 
-  private String posteOccupe;
+  private String poste;
 
   private String filiere;
 }

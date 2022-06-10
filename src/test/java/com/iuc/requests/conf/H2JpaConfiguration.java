@@ -88,7 +88,7 @@ public class H2JpaConfiguration {
       Staff staff1 = new Staff();
       staff1.setNom("Dounkeu");
       staff1.setPrenom("Patrice");
-      staff1.setPosteOccupe("Director");
+      staff1.setPoste("Director");
       staff1.setMatricule("1DIUC2020");
       staff1.setEmail("dounkeu@iuc.com");
       staff1.setPassword("1234");
@@ -97,8 +97,8 @@ public class H2JpaConfiguration {
       Staff staff2 = new Staff();
       staff2.setNom("Tchiencheu");
       staff2.setPrenom("Dominique");
-      staff2.setPosteOccupe("Chef Departement");
-      staff2.setMatricule("1CIUC2024");
+      staff2.setPoste("Chef Departement");
+      staff2.setMatricule("1CIUC2020");
       staff2.setEmail("tchiencheu@iuc.com");
       staff2.setPassword("1234");
       staff2.setFiliere("INFORMATIQUE");

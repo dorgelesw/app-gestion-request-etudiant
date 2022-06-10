@@ -15,7 +15,7 @@ public class Request {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "request_code", length = 50, unique = true, nullable = false)
+  @Column(length = 50, unique = true, nullable = false)
   private Long requestCode;
 
   @Column(nullable = false)
@@ -27,7 +27,7 @@ public class Request {
   @Column private String comment;
 
   @Column(nullable = false)
-  private String requestStatut;
+  private String requestStatus;
 
   @ManyToOne
   @JoinColumn(name = "student_id")
