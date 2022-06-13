@@ -114,7 +114,8 @@ public class H2JpaConfiguration {
       student1.setPrenom("Loic");
       student1.setNiveau("1");
       student1.setMatricule("1DIUC2021");
-      student1.setEmail("oum.loic@iuc.com");
+      student1.setEmail("vimaltest1@gmail.com");
+
       student1.setPassword("1234");
       student1.setFiliere("INFORMATIQUE");
 
@@ -129,6 +130,20 @@ public class H2JpaConfiguration {
 
       studentRepository.save(student1);
       studentRepository.save(student2);
+    }
+
+    public Student populateOneStudent() {
+
+      Student student1 = new Student();
+      student1.setNom("student-nom-test-1");
+      student1.setPrenom("student-prenom-test-1");
+      student1.setNiveau("1");
+      student1.setMatricule("1DIUC2021");
+      student1.setEmail("vimaltest1@gmail.com");
+      student1.setPassword("1234");
+      student1.setFiliere("INFORMATIQUE");
+      return  studentRepository.save(student1);
+
     }
 
     public void resetStaff() {

@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudentDto {
-
-  private String matricule;
+  private  String matricule;
 
   private String nom;
 
@@ -13,7 +12,8 @@ public class StudentDto {
 
   private String email;
 
-  private String niveau;
-
   private String filiere;
+
+  private String niveau ;
+
 }

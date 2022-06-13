@@ -26,9 +26,10 @@ public class User {
 
   private String password;
 
-  @Column(unique = true)
+  @Column(length = 120, unique = true, nullable = false)
   @Email
   private String email;
 
-  @Column private String filiere;
+  @Column(length = 15, nullable = false)
+  private String filiere;
 }
