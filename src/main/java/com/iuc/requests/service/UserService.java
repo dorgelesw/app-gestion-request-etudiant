@@ -131,24 +131,6 @@ public class UserService {
     return modelMapper.map(student, StudentDto.class);
   }
 
-  public StudentDto createStudentV2(StudentDto studentDto) {
-    Student student;
-    if (Objects.nonNull(studentDto)) {
-      student = studentRepository.findByEmail(studentDto.getEmail());
-      if (Objects.nonNull(student)) {
-        log.info("The email {} already used", studentDto.getEmail());
-        throw new IllegalArgumentException(
-            String.format("The value %s is already in the database.", studentDto.getEmail()));
-      } else {
-        String matricule = generateStudentMatricule();
-        studentDto.setMatricule(matricule);
-        student = studentRepository.save(modelMapper.map(studentDto, Student.class));
-        return modelMapper.map(student, StudentDto.class);
-      }
-    }
-    throw new NullPointerException("Student Object can't be null");
-  }
-
   public void deleteStudentByMatricule(String matricule) {
     Student student = studentRepository.findByMatricule(matricule);
     if (student != null) {
@@ -163,12 +145,4 @@ public class UserService {
     }
   }
 
-  private String generateStudentMatricule() {
-
-    Long currentID = 0L;
-    Optional<Student> lastInsertedStudent = studentRepository.findTopByOrderByIdDesc();
-    if (lastInsertedStudent.isPresent()) currentID = lastInsertedStudent.get().getId();
-
-    return String.format("ST%05d", currentID + 1);
-  }
 }

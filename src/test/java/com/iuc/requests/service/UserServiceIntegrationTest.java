@@ -11,20 +11,19 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.nio.channels.IllegalChannelGroupException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {AppConfigurationTest.class, H2JpaConfiguration.class})
-public class UserServiceIntegrationTest {
+class UserServiceIntegrationTest {
 
   @Autowired H2JpaConfiguration.Populator populator;
 
@@ -53,8 +52,8 @@ public class UserServiceIntegrationTest {
     staffDto.setEmail("staff-test-1@iuc.com");
     staffDto.setFiliere("MATHEMATIQUE");
     StaffDto staffDtoCreated = userService.createStaff(staffDto);
-    assertThat(staffDtoCreated).isNotNull();
-    assertThat(staffDtoCreated).isEqualTo(staffDto);
+
+    assertThat(staffDtoCreated).isNotNull().isEqualTo(staffDto);
   }
 
   @Test
@@ -77,8 +76,8 @@ public class UserServiceIntegrationTest {
     studentDto2.setEmail("Student-test-2@iuc.com");
     studentDto2.setFiliere("INFORMATIQUE");
 
-    userService.createStudentV2(studentDto1);
-    userService.createStudentV2(studentDto2);
+    userService.createStudent(studentDto1);
+    userService.createStudent(studentDto2);
 
     List<StudentDto> expectedStudentDtoList = new ArrayList<>();
     expectedStudentDtoList.add(studentDto1);
@@ -95,45 +94,63 @@ public class UserServiceIntegrationTest {
   }
 
   @Test
-  public void when_save_student_it_should_fail_with_email_exists() {
+  public void when_save_student_it_should_fail_if_email_already_exists() {
     // Arrange
     StudentDto studentDto = new StudentDto();
     studentDto.setNom("student-nom-test-1");
     studentDto.setPrenom("student-prenom-test-1");
     studentDto.setNiveau("1");
-    // studentDto.setMatricule("1DIUC20214");
+    studentDto.setMatricule("1DIUC20215");
     studentDto.setEmail("vimaltest14@gmail.com");
     studentDto.setFiliere("INFORMATIQUE");
 
     // Arrange
     StudentDto studentDto2 = new StudentDto();
-    studentDto.setNom("student-nom-test-2");
-    studentDto.setPrenom("student-prenom-test-2");
+    studentDto2.setNom("student-nom-test-2");
+    studentDto2.setPrenom("student-prenom-test-2");
+    studentDto2.setNiveau("1");
+    studentDto2.setMatricule("1DIUC20214");
+    studentDto2.setEmail("vimaltest14@gmail.com");
+    studentDto2.setFiliere("INFORMATIQUE");
+
+    // Act
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
+
+    // Assert
+    assertThat(studentDtoCreated).isNotNull().isEqualTo(studentDto);
+
+    // Act
+    Assertions.assertThrows(
+        DataIntegrityViolationException.class, () -> userService.createStudent(studentDto2));
+  }
+
+  @Test
+  public void when_save_student_it_should_fail_if_matricule_already_exists() {
+    // Initialisation
+    StudentDto studentDto = new StudentDto();
+    studentDto.setNom("student-nom-test-1");
+    studentDto.setPrenom("student-prenom-test-1");
     studentDto.setNiveau("1");
-    // studentDto.setMatricule("1DIUC20214");
+    studentDto.setMatricule("1DIUC20214");
     studentDto.setEmail("vimaltest14@gmail.com");
     studentDto.setFiliere("INFORMATIQUE");
 
-    // Act
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDto2 = new StudentDto();
+    studentDto2.setNom("student-nom-test-2");
+    studentDto2.setPrenom("student-prenom-test-2");
+    studentDto2.setNiveau("1");
+    studentDto2.setMatricule("1DIUC20214");
+    studentDto2.setEmail("vimaltest15@gmail.com");
+    studentDto2.setFiliere("INFORMATIQUE");
 
-    // Assert
-    assertThat(studentDtoCreated).isNotNull();
-    assertThat(studentDtoCreated).isEqualTo(studentDto);
-
+    userService.createStudent(studentDto);
     // Act
-    IllegalArgumentException exception =
-        Assertions.assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              userService.createStudentV2(studentDto);
-            });
-    Assertions.assertEquals(
-        format("The value %s is already in the database.", studentDto.getEmail()),
-        exception.getMessage());
+    Assertions.assertThrows(
+        DataIntegrityViolationException.class, () -> userService.createStudent(studentDto2));
   }
 
-  public void when_save_student_it_should_return_student() {
+  @Test
+  void when_save_student_it_should_return_student() {
 
     // Arrange
     StudentDto studentDto = new StudentDto();
@@ -145,15 +162,14 @@ public class UserServiceIntegrationTest {
     studentDto.setFiliere("INFORMATIQUE");
 
     // Act
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
 
     // Assert
-    assertThat(studentDtoCreated).isNotNull();
-    assertThat(studentDtoCreated).isEqualTo(studentDto);
+    assertThat(studentDtoCreated).isNotNull().isEqualTo(studentDto);
   }
 
   @Test
-  public void when_find_student_by_email_it_return_student() {
+  void when_find_student_by_email_it_return_student() {
 
     // ARRANGE
     StudentDto studentDto = new StudentDto();
@@ -163,15 +179,14 @@ public class UserServiceIntegrationTest {
     studentDto.setMatricule("1DIUC52021");
     studentDto.setEmail("vimaltest13@gmail.com");
     studentDto.setFiliere("INFORMATIQUE");
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
 
     // ACT
     StudentDto actualStudentDto = userService.findStudentByEmail(studentDtoCreated.getEmail());
 
     // ASSERT
     assertThat(studentDtoCreated).isNotNull();
-    assertThat(actualStudentDto).isNotNull();
-    assertThat(actualStudentDto).isEqualTo(studentDtoCreated);
+    assertThat(actualStudentDto).isNotNull().isEqualTo(studentDtoCreated);
   }
 
   @Test
@@ -187,14 +202,13 @@ public class UserServiceIntegrationTest {
     studentDto.setFiliere("INFORMATIQUE");
 
     // ACT
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
     StudentDto actualStudentDto =
         userService.findStudentByMatricule(studentDtoCreated.getMatricule());
 
     // ASSERT
     assertThat(studentDtoCreated).isNotNull();
-    assertThat(actualStudentDto).isNotNull();
-    assertThat(actualStudentDto).isEqualTo(studentDtoCreated);
+    assertThat(actualStudentDto).isNotNull().isEqualTo(studentDtoCreated);
   }
 
   @Test
@@ -209,7 +223,7 @@ public class UserServiceIntegrationTest {
     studentDto.setFiliere("INFORMATIQUE");
 
     // ACT
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
     userService.deleteStudentByEmail(studentDtoCreated.getEmail());
     StudentDto actualStudentDto = userService.findStudentByEmail(studentDtoCreated.getEmail());
 
@@ -231,7 +245,7 @@ public class UserServiceIntegrationTest {
     studentDto.setFiliere("INFORMATIQUE");
 
     // ACT
-    StudentDto studentDtoCreated = userService.createStudentV2(studentDto);
+    StudentDto studentDtoCreated = userService.createStudent(studentDto);
     userService.deleteStudentByMatricule(studentDtoCreated.getMatricule());
     StudentDto actualStudentDto =
         userService.findStudentByMatricule(studentDtoCreated.getMatricule());
@@ -256,8 +270,7 @@ public class UserServiceIntegrationTest {
     StaffDto createdStaffDto = userService.createStaff(staffDto);
 
     // Assert
-    assertThat(createdStaffDto).isNotNull();
-    assertThat(createdStaffDto).isEqualTo(staffDto);
+    assertThat(createdStaffDto).isNotNull().isEqualTo(staffDto);
   }
 
   @Test
@@ -278,8 +291,7 @@ public class UserServiceIntegrationTest {
 
     // Assert
     assertThat(createdStaffDto).isNotNull();
-    assertThat(actualStaffDto).isNotNull();
-    assertThat(actualStaffDto).isEqualTo(createdStaffDto);
+    assertThat(actualStaffDto).isNotNull().isEqualTo(createdStaffDto);
   }
 
   @Test
@@ -300,8 +312,7 @@ public class UserServiceIntegrationTest {
 
     // Assert
     assertThat(createdStaffDto).isNotNull();
-    assertThat(actualStaffDto).isNotNull();
-    assertThat(actualStaffDto).isEqualTo(createdStaffDto);
+    assertThat(actualStaffDto).isNotNull().isEqualTo(createdStaffDto);
   }
 
   @Test
@@ -397,7 +408,7 @@ public class UserServiceIntegrationTest {
     studentDto.setFiliere("INFORMATIQUE");
 
     // Act
-    StudentDto createdStudentDto = userService.createStudentV2(studentDto);
+    StudentDto createdStudentDto = userService.createStudent(studentDto);
     createdStudentDto.setNom("student-nom-test-1-update");
     createdStudentDto.setFiliere("INFORMATIQUE-u");
     createdStudentDto.setNiveau("2");

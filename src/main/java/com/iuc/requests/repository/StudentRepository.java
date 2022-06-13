@@ -16,10 +16,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
   @Query("select s FROM Student s where  s.filiere = ?1")
   List<Student> findAllByFiliere(String filiere);
 
-  //Long findTop();
-
-  //Optional<Student> findFirstOrderByIdc();
-
   Optional<Student> findTopByOrderByIdDesc();
 
 }

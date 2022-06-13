@@ -77,14 +77,8 @@ public class UserController {
   }
 
   @PostMapping(value = "/student")
-  public ResponseEntity<?> createStudent(@RequestBody StudentDto studentDto) {
-    try {
-      return new ResponseEntity<>(userService.createStudentV2(studentDto), HttpStatus.CREATED);
-    } catch (IllegalArgumentException e) {
-      return new ResponseEntity<>(new MyErrorMessage(e.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
-    } catch (NullPointerException e) {
-      return new ResponseEntity<>(new MyErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
-    }
+  public StudentDto createStudent(@RequestBody StudentDto studentDto) {
+    return userService.createStudent(studentDto);
   }
 
   @DeleteMapping(value = "student", params = "matricule")

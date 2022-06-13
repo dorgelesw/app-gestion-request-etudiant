@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 
 @MappedSuperclass
 @Getter
@@ -27,11 +26,10 @@ public class User {
 
   private String password;
 
-  @Column(unique = true)
+  @Column(length = 120, unique = true, nullable = false)
   @Email
   private String email;
 
-  @Column(length = 15,nullable = false)
+  @Column(length = 15, nullable = false)
   private String filiere;
-
 }

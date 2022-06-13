@@ -389,7 +389,7 @@ public class UserControllerTest {
     String jsonStudentDto = objectMapper.writeValueAsString(studentDto);
 
     // ACT
-    BDDMockito.given(userService.createStudentV2(studentDto)).willReturn(studentDto);
+    BDDMockito.given(userService.createStudent(studentDto)).willReturn(studentDto);
 
     // ASSERT
     mockMvc
@@ -397,7 +397,7 @@ public class UserControllerTest {
             MockMvcRequestBuilders.post("/iuc/users/student")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonStudentDto))
-        .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.nom", Matchers.is(studentDto.getNom())))
         .andExpect(MockMvcResultMatchers.jsonPath("$.prenom", Matchers.is(studentDto.getPrenom())))
         .andExpect(
@@ -407,7 +407,7 @@ public class UserControllerTest {
         .andExpect(
             MockMvcResultMatchers.jsonPath("$.filiere", Matchers.is(studentDto.getFiliere())));
 
-    Mockito.verify(userService, Mockito.times(1)).createStudentV2(studentDto);
+    Mockito.verify(userService, Mockito.times(1)).createStudent(studentDto);
   }
 
   @Test
