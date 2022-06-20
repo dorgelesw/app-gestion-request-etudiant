@@ -1,0 +1,84 @@
+format 222
+
+classinstance 128100 class_ref 128386 // User
+  name ""   xyz 4 16 2000 life_line_z 2000
+classinstance 128228 class_ref 128002 // RequestController
+  name ""   xyz 159 20 2000 life_line_z 2000
+classinstance 128356 class_ref 128130 // RequestService
+  name ""   xyz 358 19 2000 life_line_z 2000
+classinstance 128484 class_ref 128258 // RequestRepository
+  name ""   xyz 533 22 2000 life_line_z 2000
+classinstance 128612 class_ref 128514 // MySQL
+  name ""   xyz 740 25 2000 life_line_z 2000
+durationcanvas 128740 classinstance_ref 128100 // :User
+  xyzwh 23 74 2010 11 224
+  overlappingdurationcanvas 132452
+    xyzwh 29 97 2020 11 25
+  end
+end
+durationcanvas 134244 classinstance_ref 128228 // :RequestController
+  xyzwh 211 143 2010 11 146
+end
+durationcanvas 134500 classinstance_ref 128356 // :RequestService
+  xyzwh 403 150 2010 11 121
+end
+durationcanvas 134756 classinstance_ref 128484 // :RequestRepository
+  xyzwh 588 156 2010 11 103
+end
+durationcanvas 135012 classinstance_ref 128612 // :MySQL
+  xyzwh 761 166 2010 11 75
+end
+reflexivemsg 132580 asynchronous
+  to durationcanvas_ref 132452
+  yz 98 2025 explicitmsg "1: check the state of request"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 59 97
+msg 134372 synchronous
+  from durationcanvas_ref 128740
+  to durationcanvas_ref 134244
+  yz 143 2015 explicitmsg "2:delete the created request"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 46 128
+msg 134628 synchronous
+  from durationcanvas_ref 134244
+  to durationcanvas_ref 134500
+  yz 151 2020 explicitmsg "3:call dedigated service"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 248 136
+msg 134884 synchronous
+  from durationcanvas_ref 134500
+  to durationcanvas_ref 134756
+  yz 156 2025 explicitmsg "4:call method sql query"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 438 141
+msg 135140 synchronous
+  from durationcanvas_ref 134756
+  to durationcanvas_ref 135012
+  yz 166 2015 explicitmsg "5:sql request"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 644 151
+msg 135524 return
+  from durationcanvas_ref 135012
+  to durationcanvas_ref 134756
+  yz 213 2015 explicitmsg "6:list of created requests"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 616 218
+msg 135652 return
+  from durationcanvas_ref 134756
+  to durationcanvas_ref 134500
+  yz 227 2015 explicitmsg "7:list of created requests"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 435 233
+msg 135780 return
+  from durationcanvas_ref 134500
+  to durationcanvas_ref 134244
+  yz 241 2020 explicitmsg "8:list of created requests"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 252 247
+msg 135908 return
+  from durationcanvas_ref 134244
+  to durationcanvas_ref 128740
+  yz 258 2015 explicitmsg "9:list of created requests"
+  show_full_operations_definition default show_class_of_operation default drawing_language default show_context_mode default
+  label_xy 61 262
+end

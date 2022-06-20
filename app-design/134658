@@ -1,6 +1,6 @@
 format 222
 "REPOSITORY" // REPOSITORY
-  revision 2
+  revision 11
   modified_by 2 "d.marrel"
   // class settings
   
@@ -52,17 +52,17 @@ format 222
      end
     state 134530 "appState"
       stereotype "machine"
+      pseudostate 128002 initial 
+	transition 135396 "<transition>"
+	  on state_ref 141058 // Créer
+	  external 
+	end
+      end
+
       statediagram 134530 "requestState"
 	statediagramsettings draw_all_relations no
 	 end
 	size A4
-      end
-
-      pseudostate 128002 initial 
-	transition 128002 "<transition>"
-	  on state_ref 141058 // Créer
-	  external 
-	end
       end
 
       state 141058 "Créer"
@@ -70,13 +70,71 @@ format 222
 	  on state_ref 141058 // Créer
 	end
 
-	transition 128258 "<transition>"
-	  on state_ref 141186 // Envoyer
+	transition 156004 "requete soumise"
+	  on state_ref 135140 // Envoyer
 	  external 
 	end
       end
 
-      state 141186 "Envoyer"
+      state 128228 "En cours de traitement"
+	transition 142308 "<transition>"
+	  on pseudostate_ref 142692 // choice
+	  external 
+	end
+      end
+
+      state 128356 "à compléter"
+	transition 156260 "<transition>"
+	  on state_ref 135140 // Envoyer
+	  external 
+	end
+      end
+
+      state 128484 "Approuver"
+	pseudostate 128996 join 
+	end
+      end
+
+      state 128612 "Rejeter"
+	pseudostate 129124 join 
+	end
+      end
+
+      pseudostate 129380 final 
+      end
+
+      stateaction 128228
+      end
+
+      pseudostate 135908 join 
+      end
+
+      pseudostate 136036 join 
+      end
+
+      pseudostate 136164 join 
+      end
+
+      pseudostate 142692 choice 
+	transition 142436 "<transition>"
+	  on stateaction_ref 134884
+	  external 
+	end
+
+	transition 149476 "élément manquant"
+	  on state_ref 128356 // à compléter
+	  external 
+	end
+      end
+
+      stateaction 134884
+      end
+
+      state 135140 "Envoyer"
+	transition 156132 "requete reçue"
+	  on state_ref 128228 // En cours de traitement
+	  external 
+	end
       end
     end
 
@@ -90,6 +148,64 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
+      attribute 128100 "nom"
+	private explicit_type "varchar"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128228 "prenom"
+	private explicit_type "varchar"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128356 "password"
+	private explicit_type "varchar"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 143588 "matricule"
+	protected explicit_type "uchar"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128898 // (a)
+	relation_ref 128386 // a
+      end
+
+      attribute 128386 "filiere"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
 
     class 128642 "Student"
@@ -102,6 +218,33 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
+      ncouples 1
+      key "Matricule" value ""
+      classrelation 128100 // <generalisation>
+	relation 128100 ---|>
+	  a public
+	    classrelation_ref 128100 // <generalisation>
+	  b parent class_ref 128386 // User
+      end
+
+      attribute 128740 "niveau"
+	private explicit_type "uchar"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128258 // (creer, soumettre)
+	relation 128130 ---- name "creer, soumettre"
+	  a role_name "" multiplicity "*" protected
+	    classrelation_ref 128258 // (creer, soumettre)
+	  b role_name "" multiplicity "0..1" protected
+	    classrelation_ref 128386 // (creer, soumettre)
+      end
     end
 
     class 128770 "Staff"
@@ -114,6 +257,33 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
+      ncouples 1
+      key "IdStaff" value ""
+      classrelation 128228 // <generalisation>
+	relation 128228 ---|>
+	  a public
+	    classrelation_ref 128228 // <generalisation>
+	  b parent class_ref 128386 // User
+      end
+
+      attribute 128996 "posteOccupe"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128514 // (recevoir, traiter, approuver ou rejeter)
+	relation 128258 ---- name "recevoir, traiter, approuver ou rejeter"
+	  a role_name "" multiplicity "*" protected
+	    classrelation_ref 128514 // (recevoir, traiter, approuver ou rejeter)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 128642 // (recevoir, traiter, approuver ou rejeter)
+      end
     end
 
     class 128898 "Request"
@@ -126,11 +296,251 @@ format 222
       explicit_switch_type ""
       mysql_decl ""
       
+      ncouples 1
+      key "IdReq" value ""
+      attribute 129124 "idReq"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 129508 "delai_Soum_Req"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 129636 "duree_Trait_Req"
+	private explicit_type "int"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 129764 "justificatifReq"
+	private explicit_type "any"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 135908 // posséder
+	relation_ref 135268 // posséder
+      end
+
+      attribute 143076 "requestType"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 143204 "requestReason"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 142692 // (avoir)
+	relation 141924 ---- name "avoir"
+	  a role_name "" multiplicity "1" protected
+	    classrelation_ref 142692 // (avoir)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 142820 // (avoir)
+      end
+
+      attribute 143460 "comment"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128386 // (creer, soumettre)
+	relation_ref 128130 // creer, soumettre
+      end
+
+      classrelation 128642 // (recevoir, traiter, approuver ou rejeter)
+	relation_ref 128258 // recevoir, traiter, approuver ou rejeter
+      end
+
+      attribute 128514 "requestStatut"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
     end
 
     classdiagram 141314 "api request class diagram"
-      classdiagramsettings member_max_width 0 end
+      classdiagramsettings draw_all_relations no member_max_width 0 end
       size A4
+    end
+
+    class 128100 "RequestType"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 136420 "type"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 135780 // (posséder)
+	relation 135268 ---- name "posséder"
+	  a role_name "" multiplicity "1" protected
+	    classrelation_ref 135780 // (posséder)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 135908 // posséder
+      end
+
+      classrelation 136164 // avoir
+	relation_ref 135396 // avoir
+      end
+    end
+
+    class 128228 "RequestReason"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 136548 "motif"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 136036 // (avoir)
+	relation 135396 ---- name "avoir"
+	  a role_name "" multiplicity "1" protected
+	    classrelation_ref 136036 // (avoir)
+	  b role_name "" multiplicity "1..*" protected
+	    classrelation_ref 136164 // avoir
+      end
+    end
+
+    class 134756 "RequestState"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 143332 "statut"
+	private explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 142820 // (avoir)
+	relation_ref 141924 // avoir
+      end
+    end
+
+    class 135426 "Filiere"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 128130 "nom"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128258 "description"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128770 // (a)
+	relation 128386 ---- name "a"
+	  a role_name "" multiplicity "1" protected
+	    classrelation_ref 128770 // (a)
+	  b role_name "" multiplicity "1" protected
+	    classrelation_ref 128898 // (a)
+      end
     end
   end
 end
