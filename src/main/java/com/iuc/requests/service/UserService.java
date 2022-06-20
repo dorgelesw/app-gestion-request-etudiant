@@ -18,6 +18,7 @@ public class UserService {
   @Autowired private StaffRepository staffRepository;
   @Autowired private StudentRepository studentRepository;
 
+
   public List<StaffDto> findAllStaffs() {
 
     Iterable<Staff> staffs = staffRepository.findAll();
@@ -34,4 +35,6 @@ public class UserService {
     Staff staff = staffRepository.save(modelMapper.map(staffDto, Staff.class));
     return modelMapper.map(staff, StaffDto.class);
   }
+
+
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/iuc/users")
 public class UserController {
-
   @Autowired private UserService userService;
 
   @GetMapping("/staff")
@@ -34,4 +33,5 @@ public class UserController {
   public StaffDto save(@RequestBody StaffDto staffDto) {
     return userService.save(staffDto);
   }
-}
+  }
+

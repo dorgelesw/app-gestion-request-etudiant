@@ -1,9 +1,11 @@
 package com.iuc.requests.conf;
 
 import com.iuc.requests.dao.Filiere;
+import com.iuc.requests.dao.Request;
 import com.iuc.requests.dao.Staff;
 import com.iuc.requests.dao.Student;
 import com.iuc.requests.repository.FiliereRepository;
+import com.iuc.requests.repository.RequestRepository;
 import com.iuc.requests.repository.StaffRepository;
 import com.iuc.requests.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,7 @@ public class H2JpaConfiguration {
     @Autowired StaffRepository staffRepository;
     @Autowired StudentRepository studentRepository;
     @Autowired FiliereRepository filiereRepository;
+    @Autowired RequestRepository requestRepository;
 
     public void populateFiliere() {
       Filiere filiereInformatique = new Filiere();
@@ -131,12 +134,38 @@ public class H2JpaConfiguration {
       studentRepository.save(student2);
     }
 
+    public void populateRequest() {
+      populateStaff();
+      populateStudent();
+      Request request1 = new Request();
+
+      request1.setRequestCode(1L);
+      request1.setRequestType("Student1");
+      request1.setRequestReason("Test");
+      request1.setComment("onlineTest");
+      request1.setRequestStatut("INFORMATIQUE");
+
+      Request request2 = new Request();
+      request2.setRequestCode(2L);
+      request2.setRequestType("Student2");
+      request2.setRequestReason("Test");
+      request2.setComment("onlineTest");
+      request2.setRequestStatut("INFORMATIQUE");
+
+      requestRepository.save(request1);
+      requestRepository.save(request2);
+    }
+
     public void resetStaff() {
       staffRepository.deleteAll();
     }
 
     public void resetStudent() {
       studentRepository.deleteAll();
+    }
+
+    public void resetRequest() {
+      requestRepository.deleteAll();
     }
   }
 }

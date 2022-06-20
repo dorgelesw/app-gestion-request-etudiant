@@ -21,6 +21,7 @@ public class UserServiceIntegrationTest {
 
   @Autowired UserService userService;
 
+
   @Test
   public void giving_2_existing_staffs_findAllStaff_should_be_equal_to_2() {
     populator.populateStaff();
@@ -41,4 +42,6 @@ public class UserServiceIntegrationTest {
     assertThat(staffDtoCreated).isNotNull();
     assertThat(staffDtoCreated).isEqualTo(staffDto);
   }
+
+
 }
